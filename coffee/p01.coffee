@@ -22,15 +22,20 @@ main = do ->
       renderer = new THREE.CanvasRenderer()
     renderer.setSize 600, 400
     document.getElementById('container').appendChild renderer.domElement
+
+    #3. lighting
     directionalLight = new THREE.DirectionalLight("#ffffff", 1)
     directionalLight.position.set 0, 7, 10
     scene.add directionalLight
+
+    #4. mesh
     geometry = new THREE.CubeGeometry(10, 10, 10)
     material = new THREE.MeshPhongMaterial(color: "#dd3b6f")
     cube = new THREE.Mesh(geometry, material)
     cube.position.set 0, 0, 0
     scene.add cube
-    console.log "test"
+
+    #5. rendaring
     render()
 
   return {
