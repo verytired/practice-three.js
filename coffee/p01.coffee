@@ -13,6 +13,8 @@ main = do ->
       requestAnimationFrame render
       cube.rotation.x += 0.01 # 追加
       cube.rotation.y += 0.01 # 追加
+      cube2.rotation.y += 0.01 # 追加
+      cube2.rotation.z += 0.01 # 追加
       renderer.render scene, camera
       return
 
@@ -30,10 +32,18 @@ main = do ->
 
     #4. mesh
     geometry = new THREE.CubeGeometry(10, 10, 10)
-    material = new THREE.MeshPhongMaterial(color: "#dd3b6f")
+    material = new THREE.MeshPhongMaterial(color: "#ff0000")
+
+    geometry2 = new THREE.CubeGeometry(20, 20, 20)
+    material2 = new THREE.MeshPhongMaterial(color: "#0000ff")
+
     cube = new THREE.Mesh(geometry, material)
-    cube.position.set 0, 0, 0
+    cube2 = new THREE.Mesh(geometry2, material2)
+    cube.position.set 0, 0, 10
+    cube2.position.set 0, 50, -50
+
     scene.add cube
+    scene.add cube2
 
     #5. rendaring
     render()

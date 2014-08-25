@@ -6,7 +6,7 @@
   main = (function() {
     var init;
     init = function() {
-      var camera, cube, directionalLight, geometry, material, render, renderer, scene;
+      var camera, cube, cube2, directionalLight, geometry, geometry2, material, material2, render, renderer, scene;
       console.log("initialize");
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, 600 / 400, 1, 1000);
@@ -15,6 +15,8 @@
         requestAnimationFrame(render);
         cube.rotation.x += 0.01;
         cube.rotation.y += 0.01;
+        cube2.rotation.y += 0.01;
+        cube2.rotation.z += 0.01;
         renderer.render(scene, camera);
       };
       if (window.WebGLRenderingContext) {
@@ -29,12 +31,18 @@
       scene.add(directionalLight);
       geometry = new THREE.CubeGeometry(10, 10, 10);
       material = new THREE.MeshPhongMaterial({
-        color: "#dd3b6f"
+        color: "#ff0000"
+      });
+      geometry2 = new THREE.CubeGeometry(20, 20, 20);
+      material2 = new THREE.MeshPhongMaterial({
+        color: "#0000ff"
       });
       cube = new THREE.Mesh(geometry, material);
-      cube.position.set(0, 0, 0);
+      cube2 = new THREE.Mesh(geometry2, material2);
+      cube.position.set(0, 0, 10);
+      cube2.position.set(0, 50, -50);
       scene.add(cube);
-      console.log("test");
+      scene.add(cube2);
       return render();
     };
     return {
