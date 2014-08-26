@@ -7,12 +7,29 @@ $ = require('gulp-load-plugins')({
   replaceString: /\bgulp[\-.]/
 })
 
+browserSync = require 'browser-sync'
+reload = browserSync.reload
+runSequence = require('run-sequence');
+
 gulp.task 'default', ->
   console.log 'gulp!'
 
-#coffeeコンパイル&結合
+#coffee compile
 gulp.task 'coffee', ->
   gulp
   .src ['coffee/*.coffee']
   .pipe $.coffee()
   .pipe gulp.dest 'js'
+
+#run server / watch
+gulp.task 'serve', ['default'], ->
+  browserSync
+    notify: false
+    server:
+      baseDir: ['']
+  gulp.watch ['coffee/*.coffee'], ['script']
+  gulp.watch ['*.html'], reload
+
+#coffee compile&reload
+gulp.task 'script',->
+  runSequence 'coffee',reload

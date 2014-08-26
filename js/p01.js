@@ -33,15 +33,15 @@
       material = new THREE.MeshPhongMaterial({
         color: "#ff0000"
       });
+      cube = new THREE.Mesh(geometry, material);
+      cube.position.set(0, 0, 10);
+      scene.add(cube);
       geometry2 = new THREE.CubeGeometry(20, 20, 20);
       material2 = new THREE.MeshPhongMaterial({
         color: "#0000ff"
       });
-      cube = new THREE.Mesh(geometry, material);
       cube2 = new THREE.Mesh(geometry2, material2);
-      cube.position.set(0, 0, 10);
       cube2.position.set(0, 50, -50);
-      scene.add(cube);
       scene.add(cube2);
       return render();
     };
