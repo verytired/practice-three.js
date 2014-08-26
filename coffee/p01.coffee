@@ -1,7 +1,9 @@
 main = {}
+
 main = do ->
+
   init = ->
-    console.log "initialize"
+
     #1. make scene
     scene = new THREE.Scene()
 
@@ -9,21 +11,14 @@ main = do ->
     camera = new THREE.PerspectiveCamera 75, 600 / 400, 1, 1000
     camera.position.set 0, 0, 70
 
-    render = ->
-      requestAnimationFrame render
-      cube.rotation.x += 0.01
-      cube.rotation.y += 0.01
-      cube2.rotation.y += 0.01
-      cube2.rotation.z += 0.01
-      renderer.render scene, camera
-      return
-
     if window.WebGLRenderingContext
       renderer = new THREE.WebGLRenderer()
     else
       renderer = new THREE.CanvasRenderer()
     renderer.setSize 600, 400
-    document.getElementById('container').appendChild renderer.domElement
+
+    container =  document.getElementById('container')
+    container.appendChild renderer.domElement
 
     #3. lighting
     directionalLight = new THREE.DirectionalLight("#ffffff", 1)
@@ -31,10 +26,10 @@ main = do ->
     scene.add directionalLight
 
     #4. mesh
-    geometry = new THREE.CubeGeometry(10, 10, 10)
+    geometry = new THREE.CubeGeometry(40, 40, 40)
     material = new THREE.MeshPhongMaterial(color: "#ff0000")
     cube = new THREE.Mesh(geometry, material)
-    cube.position.set 0, 0, 10
+    cube.position.set 0, 0, 0
     scene.add cube
 
     geometry2 = new THREE.CubeGeometry(20, 20, 20)
@@ -44,7 +39,20 @@ main = do ->
     scene.add cube2
 
     #5. rendaring
-    render()
+    container.addEventListener "mousemove", ((e) ->
+      mouseX = (e.clientX - 600 / 2)
+      mouseY = (e.clientY - 400 / 2)
+      cube.rotation.x = mouseY * 0.005
+      cube.rotation.y = mouseX * 0.005
+
+      cube2.rotation.y = mouseY * 0.005
+      cube2.rotation.z = mouseX * 0.005
+
+      renderer.render scene, camera
+      return
+    ), false
+
+    renderer.render scene, camera
 
   return {
   init: init
