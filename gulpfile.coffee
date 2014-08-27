@@ -1,6 +1,8 @@
 gulp = require 'gulp'
 gutil = require 'gulp-util'
 
+parentDir = "practice/"
+
 #load all module
 $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'gulp.*'],
@@ -19,16 +21,16 @@ gulp.task 'coffee', ->
   gulp
   .src ['src/coffee/*.coffee']
   .pipe $.coffee()
-  .pipe gulp.dest 'js'
+  .pipe gulp.dest parentDir + 'js'
 
 #run server / watch
 gulp.task 'serve', ['default'], ->
   browserSync
     notify: false
     server:
-      baseDir: ['practice']
+      baseDir: [parentDir]
   gulp.watch ['src/coffee/*.coffee'], ['script']
-  gulp.watch ['*.html'], reload
+  gulp.watch [parentDir + '*.html'], reload
 
 #coffee compile&reload
 gulp.task 'script',->
