@@ -17,7 +17,7 @@ gulp.task 'default', ->
 #coffee compile
 gulp.task 'coffee', ->
   gulp
-  .src ['coffee/*.coffee']
+  .src ['src/coffee/*.coffee']
   .pipe $.coffee()
   .pipe gulp.dest 'js'
 
@@ -26,8 +26,8 @@ gulp.task 'serve', ['default'], ->
   browserSync
     notify: false
     server:
-      baseDir: ['']
-  gulp.watch ['coffee/*.coffee'], ['script']
+      baseDir: ['practice']
+  gulp.watch ['src/coffee/*.coffee'], ['script']
   gulp.watch ['*.html'], reload
 
 #coffee compile&reload
