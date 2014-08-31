@@ -28,9 +28,6 @@ main = do ->
     directionalLight.castShadow = true
     scene.add directionalLight
 
-#    ambient = new THREE.AmbientLight 0xffffff
-#    scene.add ambient
-
     #5. mesh
     geometry = new THREE.CubeGeometry(40, 40, 40)
     material = new THREE.MeshPhongMaterial(color: "#ff0000")
@@ -72,12 +69,24 @@ main = do ->
       cube2.rotation.y = mouseY * 0.005
       cube2.rotation.z = mouseX * 0.005
 
-      renderer.render scene, camera
-      controls.update()
       return
     ), false
 
-    renderer.render scene, camera
+    render = ->
+      renderer.render scene, camera
+      return
+
+    update = ->
+      controls.update()
+      return
+
+    animate = ->
+      requestAnimationFrame animate
+      render()
+      update()
+      return
+
+    animate()
 
   return {
   init: init

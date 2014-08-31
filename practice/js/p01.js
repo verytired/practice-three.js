@@ -6,7 +6,7 @@
   main = (function() {
     var init;
     init = function() {
-      var axis, camera, container, controls, cube, cube2, directionalLight, geometry, geometry2, material, material2, pGeometry, pMaterial, plane, renderer, scene;
+      var animate, axis, camera, container, controls, cube, cube2, directionalLight, geometry, geometry2, material, material2, pGeometry, pMaterial, plane, render, renderer, scene, update;
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(75, 600 / 400, 1, 1000);
       camera.position.set(0, 70, 70);
@@ -62,10 +62,19 @@
         cube.rotation.y = mouseX * 0.005;
         cube2.rotation.y = mouseY * 0.005;
         cube2.rotation.z = mouseX * 0.005;
-        renderer.render(scene, camera);
-        controls.update();
       }), false);
-      return renderer.render(scene, camera);
+      render = function() {
+        renderer.render(scene, camera);
+      };
+      update = function() {
+        controls.update();
+      };
+      animate = function() {
+        requestAnimationFrame(animate);
+        render();
+        update();
+      };
+      return animate();
     };
     return {
       init: init
