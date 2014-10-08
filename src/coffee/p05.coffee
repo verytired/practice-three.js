@@ -6,7 +6,7 @@ object = undefined
 light = undefined
 
 init = ->
-	renderer = new THREE.WebGLRenderer()
+	renderer = new THREE.WebGLRenderer
 	renderer.setSize window.innerWidth, window.innerHeight
 	document.body.appendChild renderer.domElement
 
@@ -40,15 +40,20 @@ init = ->
 	# postprocessing
 	composer = new THREE.EffectComposer(renderer)
 	composer.addPass new THREE.RenderPass(scene, camera)
+
 	effect = new THREE.ShaderPass(THREE.DotScreenShader)
-	effect.uniforms["scale"].value = 4
-	composer.addPass effect
-	effect = new THREE.ShaderPass(THREE.RGBShiftShader)
-	effect.uniforms["amount"].value = 0.0015
-	effect.renderToScreen = true
+	effect.uniforms["scale"].value = 1
 	composer.addPass effect
 
-	#
+	effect = new THREE.ShaderPass(THREE.RGBShiftShader)
+	effect.uniforms["amount"].value = 0.0015
+	composer.addPass effect
+
+	#renderToScreen
+	toScreen = new THREE.ShaderPass(THREE.CopyShader)
+	composer.addPass toScreen
+	toScreen.renderToScreen = true;
+
 	window.addEventListener "resize", onWindowResize, false
 	return
 
@@ -63,6 +68,7 @@ animate = ->
 	object.rotation.x += 0.005
 	object.rotation.y += 0.01
 	composer.render()
+#	renderer.render scene, camera
 	return
 
 

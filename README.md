@@ -6,8 +6,7 @@
 
 ## p03 particle
 
-## p04 bvh
+## p04 loading from bvh & play
 
-## p05 TBA
-
+## p05 pixel shader by Effect Composer
     

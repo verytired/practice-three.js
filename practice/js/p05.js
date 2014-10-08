@@ -14,8 +14,8 @@
   light = void 0;
 
   init = function() {
-    var effect, geometry, i, material, mesh;
-    renderer = new THREE.WebGLRenderer();
+    var effect, geometry, i, material, mesh, toScreen;
+    renderer = new THREE.WebGLRenderer;
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
@@ -46,12 +46,14 @@
     composer = new THREE.EffectComposer(renderer);
     composer.addPass(new THREE.RenderPass(scene, camera));
     effect = new THREE.ShaderPass(THREE.DotScreenShader);
-    effect.uniforms["scale"].value = 4;
+    effect.uniforms["scale"].value = 1;
     composer.addPass(effect);
     effect = new THREE.ShaderPass(THREE.RGBShiftShader);
     effect.uniforms["amount"].value = 0.0015;
-    effect.renderToScreen = true;
     composer.addPass(effect);
+    toScreen = new THREE.ShaderPass(THREE.CopyShader);
+    composer.addPass(toScreen);
+    toScreen.renderToScreen = true;
     window.addEventListener("resize", onWindowResize, false);
   };
 
