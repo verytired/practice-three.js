@@ -1,81 +1,75 @@
 (function() {
-  var App,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  var animate, camera, composer, init, light, object, onWindowResize, renderer, scene;
 
-  App = (function() {
-    function App() {
-      this.animate = __bind(this.animate, this);
-      this.render = __bind(this.render, this);
-      var axis, cube, cube2, directionalLight, geometry, geometry2, height, material, material2, width;
-      this.container = document.createElement('div');
-      document.body.appendChild(this.container);
-      this.scene = new THREE.Scene;
-      this.camera = new THREE.PerspectiveCamera(75, 600 / 400, 1, 1000);
-      this.camera.position.set(0, 70, 70);
-      this.scene.add(this.camera);
-      this.renderer = new THREE.CanvasRenderer();
-      this.container.appendChild(this.renderer.domElement);
-      geometry = new THREE.CubeGeometry(40, 40, 40);
-      material = new THREE.MeshPhongMaterial({
-        color: "#ff0000"
-      });
-      cube = new THREE.Mesh(geometry, material);
-      cube.position.set(0, 60, 0);
-      this.scene.add(cube);
-      geometry2 = new THREE.CubeGeometry(20, 20, 20);
-      material2 = new THREE.MeshPhongMaterial({
-        color: "#0000ff"
-      });
-      cube2 = new THREE.Mesh(geometry2, material2);
-      cube2.position.set(0, 50, -50);
-      cube2.castShadow = true;
-      this.scene.add(cube2);
-      directionalLight = new THREE.DirectionalLight("#ffffff", 1);
-      directionalLight.position.set(0, 100, 30);
-      directionalLight.castShadow = true;
-      this.scene.add(directionalLight);
-      axis = new THREE.AxisHelper(1000);
-      axis.position.set(0, 0, 0);
-      this.scene.add(axis);
-      this.controls = new THREE.TrackballControls(this.camera, this.renderer.domElement);
-      this.stats = new Stats;
-      this.stats.domElement.style.position = 'absolute';
-      this.stats.domElement.style.top = '0';
-      this.container.appendChild(this.stats.domElement);
-      width = window.innerWidth;
-      height = window.innerHeight;
-      this.renderer.setSize(width, height);
-      this.camera.aspect = width / height;
-      this.camera.updateProjectionMatrix();
-      this.animate();
-      return;
+  camera = void 0;
+
+  scene = void 0;
+
+  renderer = void 0;
+
+  composer = void 0;
+
+  object = void 0;
+
+  light = void 0;
+
+  init = function() {
+    var effect, geometry, i, material, mesh;
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.z = 400;
+    scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x000000, 1, 1000);
+    object = new THREE.Object3D();
+    scene.add(object);
+    geometry = new THREE.SphereGeometry(1, 4, 4);
+    material = new THREE.MeshPhongMaterial({
+      color: 0xffffff,
+      shading: THREE.FlatShading
+    });
+    i = 0;
+    while (i < 100) {
+      mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+      mesh.position.multiplyScalar(Math.random() * 400);
+      mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+      mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 50;
+      object.add(mesh);
+      i++;
     }
+    scene.add(new THREE.AmbientLight(0x222222));
+    light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(1, 1, 1);
+    scene.add(light);
+    composer = new THREE.EffectComposer(renderer);
+    composer.addPass(new THREE.RenderPass(scene, camera));
+    effect = new THREE.ShaderPass(THREE.DotScreenShader);
+    effect.uniforms["scale"].value = 4;
+    composer.addPass(effect);
+    effect = new THREE.ShaderPass(THREE.RGBShiftShader);
+    effect.uniforms["amount"].value = 0.0015;
+    effect.renderToScreen = true;
+    composer.addPass(effect);
+    window.addEventListener("resize", onWindowResize, false);
+  };
 
-    App.prototype.update = function() {
-      this.stats.update();
-      this.controls.update();
-    };
+  onWindowResize = function() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  };
 
-    App.prototype.render = function() {
-      return this.renderer.render(this.scene, this.camera);
-    };
+  animate = function() {
+    requestAnimationFrame(animate);
+    object.rotation.x += 0.005;
+    object.rotation.y += 0.01;
+    composer.render();
+  };
 
-    App.prototype.animate = function() {
-      requestAnimationFrame(this.animate);
-      this.update();
-      this.render();
-    };
+  init();
 
-    return App;
-
-  })();
-
-  $(function() {
-    if (Detector.webgl) {
-      return new App();
-    } else {
-      return Detector.addGetWebGLMessage();
-    }
-  });
+  animate();
 
 }).call(this);
