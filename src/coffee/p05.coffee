@@ -18,13 +18,16 @@ init = ->
 	object = new THREE.Object3D()
 	scene.add object
 	geometry = new THREE.SphereGeometry(1, 4, 4)
-	material = new THREE.MeshPhongMaterial(
-		color: 0xffffff
-		shading: THREE.FlatShading
-	)
+
 	i = 0
 
 	while i < 100
+		material = new THREE.MeshPhongMaterial(
+			color:0xFFFFFF*Math.random()
+#		shading: THREE.FlatShading
+			blending: THREE.AdditiveBlending
+			transparent: true
+		)
 		mesh = new THREE.Mesh(geometry, material)
 		mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize()
 		mesh.position.multiplyScalar Math.random() * 400
@@ -43,7 +46,12 @@ init = ->
 
 	effect = new THREE.ShaderPass(THREE.DotScreenShader)
 	effect.uniforms["scale"].value = 1
-	composer.addPass effect
+#	composer.addPass effect
+
+	dotMatrixPass = new THREE.ShaderPass THREE.DotMatrixShader
+
+	dotMatrixPass.uniforms["size"].value = 10
+	composer.addPass dotMatrixPass
 
 	effect = new THREE.ShaderPass(THREE.RGBShiftShader)
 	effect.uniforms["amount"].value = 0.0015

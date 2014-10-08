@@ -14,7 +14,7 @@
   light = void 0;
 
   init = function() {
-    var effect, geometry, i, material, mesh, toScreen;
+    var dotMatrixPass, effect, geometry, i, material, mesh, toScreen;
     renderer = new THREE.WebGLRenderer;
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -25,12 +25,13 @@
     object = new THREE.Object3D();
     scene.add(object);
     geometry = new THREE.SphereGeometry(1, 4, 4);
-    material = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      shading: THREE.FlatShading
-    });
     i = 0;
     while (i < 100) {
+      material = new THREE.MeshPhongMaterial({
+        color: 0xFFFFFF * Math.random(),
+        blending: THREE.AdditiveBlending,
+        transparent: true
+      });
       mesh = new THREE.Mesh(geometry, material);
       mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
       mesh.position.multiplyScalar(Math.random() * 400);
@@ -47,7 +48,9 @@
     composer.addPass(new THREE.RenderPass(scene, camera));
     effect = new THREE.ShaderPass(THREE.DotScreenShader);
     effect.uniforms["scale"].value = 1;
-    composer.addPass(effect);
+    dotMatrixPass = new THREE.ShaderPass(THREE.DotMatrixShader);
+    dotMatrixPass.uniforms["size"].value = 10;
+    composer.addPass(dotMatrixPass);
     effect = new THREE.ShaderPass(THREE.RGBShiftShader);
     effect.uniforms["amount"].value = 0.0015;
     composer.addPass(effect);
