@@ -2,14 +2,25 @@
 /// <reference path="three.d.ts" />
 /// <reference path="jquery.d.ts" />
 
-//extensionを使えるようにする
-declare module THREE {export var OrbitControls}
+//extension/shaderを使えるようにする
+declare module THREE {
+    export var OrbitControls;
+    //effect
+    export var EffectComposer;
+    export var RenderPass;
+    export var ShaderPass;
+    export var DotScreenShader;
+    export var DotMatrixShader;
+    export var RGBShiftShader;
+    export var CopyShader;
+}
 
 class MainApp {
-    scene:THREE.Scene;
-    camera:THREE.PerspectiveCamera;
-    renderer;
-    controls;
+    private scene:THREE.Scene;
+    private camera:THREE.PerspectiveCamera;
+    private renderer;
+    private controls;
+    private composer;
 
     constructor() {
         console.log("main app constructor");
@@ -73,6 +84,20 @@ class MainApp {
 
         window.addEventListener("resize", this.onWindowResize, false);
 
+        //effect
+        this.composer = new THREE.EffectComposer(this.renderer);
+        this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
+        var effect = new THREE.ShaderPass(THREE.DotScreenShader);
+        effect.uniforms["scale"].value = 1;
+        var dotMatrixPass = new THREE.ShaderPass(THREE.DotMatrixShader);
+        dotMatrixPass.uniforms["size"].value = 10;
+        this.composer.addPass(dotMatrixPass);
+        effect = new THREE.ShaderPass(THREE.RGBShiftShader);
+        effect.uniforms["amount"].value = 0.0015;
+        this.composer.addPass(effect);
+        var toScreen = new THREE.ShaderPass(THREE.CopyShader);
+        this.composer.addPass(toScreen);
+        toScreen.renderToScreen = true;
     }
 
     private onWindowResize = function() {
@@ -82,7 +107,8 @@ class MainApp {
     };
 
     private render() {
-        this.renderer.render(this.scene, this.camera);
+//        this.renderer.render(this.scene, this.camera);
+        this.composer.render();
     }
 
     private update() {
@@ -94,6 +120,7 @@ class MainApp {
             this.animate()
         );
         this.render();
+
         this.update();
     }
 
