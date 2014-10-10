@@ -3,9 +3,14 @@
 /// <reference path="jquery.d.ts" />
 var MainApp = (function () {
     function MainApp() {
+        this.onWindowResize = function () {
+            this.camera.aspect = window.innerWidth / window.innerHeight;
+            this.camera.updateProjectionMatrix();
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
+        };
         console.log("main app constructor");
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, 600 / 400, 1, 1000);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
         this.camera.position.set(0, 70, 70);
         if (WebGLRenderingContext) {
             this.renderer = new THREE.WebGLRenderer();
@@ -13,7 +18,7 @@ var MainApp = (function () {
         else {
             this.renderer = new THREE.CanvasRenderer();
         }
-        this.renderer.setSize(600, 400);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setClearColor(0xffffff);
         this.renderer.shadowMapEnabled = true;
         var container = document.getElementById('container');
@@ -57,6 +62,7 @@ var MainApp = (function () {
             cube2.rotation.y = mouseY * 0.005;
             cube2.rotation.z = mouseX * 0.005;
         }), false);
+        window.addEventListener("resize", this.onWindowResize, false);
     }
     MainApp.prototype.render = function () {
         this.renderer.render(this.scene, this.camera);
