@@ -1,6 +1,5 @@
 gulp = require 'gulp'
 gutil = require 'gulp-util'
-plumber = require 'gulp-plumber'
 parentDir = "practice/"
 
 #load all module
@@ -19,8 +18,8 @@ gulp.task 'default', ->
 #coffee compile
 gulp.task 'coffee', ->
 	gulp
-	.pipe plumber()
 	.src ['src/coffee/*.coffee']
+	.pipe $.plumber()
 	.pipe $.coffee()
 	.pipe gulp.dest parentDir + 'js'
 
@@ -28,7 +27,7 @@ gulp.task 'coffee', ->
 gulp.task 'typescript', () ->
 	gulp
 	.src 'src/typescript/*.ts'
-	.pipe plumber()
+	.pipe $.plumber()
 	.pipe $.tsc()
 	.pipe gulp.dest parentDir + 'js'
 

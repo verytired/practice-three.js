@@ -1,5 +1,5 @@
 (function() {
-  var animate, camera, composer, init, light, object, onWindowResize, renderer, scene;
+  var animate, camera, composer, controls, init, light, object, onWindowResize, render, renderer, scene, video, videoImage, videoImageContext, videoTexture;
 
   camera = void 0;
 
@@ -13,17 +13,28 @@
 
   light = void 0;
 
+  video = void 0;
+
+  videoImage = void 0;
+
+  videoImageContext = void 0;
+
+  videoTexture = void 0;
+
+  controls = void 0;
+
   init = function() {
-    var effect, plane, planeGeometry, toScreen, video, videoMaterial, videoTexture;
+    var dotMatrixPass, effect, plane, planeGeometry, toScreen, videoMaterial;
     renderer = new THREE.WebGLRenderer;
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.z = 400;
+    camera.position.z = 600;
     scene = new THREE.Scene();
+    scene.add(camera);
     video = document.createElement('video');
-    video.width = 320;
-    video.height = 240;
+    video.width = 1080;
+    video.height = 720;
     video.autoplay = true;
     video.loop = true;
     window.URL = window.URL || window.webkitURL;
@@ -36,7 +47,11 @@
       prompt.innerHTML = 'Unable to capture WebCam. Please reload the page.';
       return console.log('Unable to capture WebCam. Please reload the page.');
     });
-    videoTexture = new THREE.Texture(video);
+    videoImage = document.getElementById('videoImage');
+    videoImageContext = videoImage.getContext('2d');
+    videoImageContext.fillStyle = '#000000';
+    videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
+    videoTexture = new THREE.Texture(videoImage);
     videoTexture.minFilter = THREE.LinearFilter;
     videoTexture.magFilter = THREE.LinearFilter;
     videoMaterial = new THREE.MeshBasicMaterial({
@@ -49,9 +64,9 @@
     plane.scale.x = plane.scale.y = 1.45;
     composer = new THREE.EffectComposer(renderer);
     composer.addPass(new THREE.RenderPass(scene, camera));
-    effect = new THREE.ShaderPass(THREE.DotScreenShader);
-    effect.uniforms["scale"].value = 1;
-    composer.addPass(effect);
+    dotMatrixPass = new THREE.ShaderPass(THREE.DotMatrixShader);
+    dotMatrixPass.uniforms["size"].value = 10;
+    composer.addPass(dotMatrixPass);
     effect = new THREE.ShaderPass(THREE.RGBShiftShader);
     effect.uniforms["amount"].value = 0.0015;
     composer.addPass(effect);
@@ -59,6 +74,7 @@
     composer.addPass(toScreen);
     toScreen.renderToScreen = true;
     window.addEventListener("resize", onWindowResize, false);
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
   };
 
   onWindowResize = function() {
@@ -69,7 +85,18 @@
 
   animate = function() {
     requestAnimationFrame(animate);
-    composer.render();
+    render();
+    controls.update();
+  };
+
+  render = function() {
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      videoImageContext.drawImage(video, 0, 0, videoImage.width, videoImage.height);
+      if (videoTexture) {
+        videoTexture.needsUpdate = true;
+      }
+    }
+    return composer.render();
   };
 
   init();

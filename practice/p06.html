@@ -12,9 +12,11 @@
     </style>
 </head>
 <body>
+<canvas id="videoImage" width="1080" height="720" style="visibility: hidden; float:left;display:none"></canvas>
 
 <script src="js/three.js/three.min.js"></script>
 <script src="js/three.js/Stats.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/three.js/OrbitControls.js"></script>
 
 <script src="js/three.js/postprocessing/EffectComposer.js"></script>
 <script src="js/three.js/postprocessing/RenderPass.js"></script>
@@ -23,6 +25,7 @@
 
 <script src="js/three.js/shaders/CopyShader.js"></script>
 <script src="js/three.js/shaders/DotScreenShader.js"></script>
+<script src="js/three.js/shaders/DotMatrixShader.js"></script>
 <script src="js/three.js/shaders/RGBShiftShader.js"></script>
 
 <script src="js/p06.js"></script>
