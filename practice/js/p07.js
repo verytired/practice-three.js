@@ -1,8 +1,8 @@
 //定義ファイル
 /// <reference path="three.d.ts" />
 /// <reference path="jquery.d.ts" />
-var MainApp = (function () {
-    function MainApp() {
+var MainApp07 = (function () {
+    function MainApp07() {
         this.onWindowResize = function () {
             this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
@@ -78,23 +78,23 @@ var MainApp = (function () {
         this.composer.addPass(toScreen);
         toScreen.renderToScreen = true;
     }
-    MainApp.prototype.render = function () {
+    MainApp07.prototype.render = function () {
         //        this.renderer.render(this.scene, this.camera);
         this.composer.render();
     };
-    MainApp.prototype.update = function () {
+    MainApp07.prototype.update = function () {
         this.controls.update();
     };
-    MainApp.prototype.animate = function () {
+    MainApp07.prototype.animate = function () {
         var _this = this;
         requestAnimationFrame(function (e) { return _this.animate(); });
         this.render();
         this.update();
     };
-    return MainApp;
+    return MainApp07;
 })();
 window.addEventListener("load", function (e) {
     console.log("loaded");
-    var main = new MainApp();
+    var main = new MainApp07();
     main.animate();
 });

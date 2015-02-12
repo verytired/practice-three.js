@@ -15,7 +15,7 @@ declare module THREE {
     export var CopyShader;
 }
 
-class MainApp {
+class MainApp07 {
     private scene:THREE.Scene;
     private camera:THREE.PerspectiveCamera;
     private renderer;
@@ -128,6 +128,6 @@ class MainApp {
 
 window.addEventListener("load", (e) => {
     console.log("loaded");
-    var main:MainApp = new MainApp();
+    var main:MainApp07 = new MainApp07();
     main.animate()
 });

@@ -1,8 +1,8 @@
 //定義ファイル
 /// <reference path="three.d.ts" />
 /// <reference path="jquery.d.ts" />
-var MainApp = (function () {
-    function MainApp() {
+var MainApp08 = (function () {
+    function MainApp08() {
         this.onWindowResize = function () {
             this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
@@ -78,23 +78,39 @@ var MainApp = (function () {
         this.composer.addPass(toScreen);
         toScreen.renderToScreen = true;
     }
-    MainApp.prototype.render = function () {
+    MainApp08.prototype.render = function () {
         //        this.renderer.render(this.scene, this.camera);
         this.composer.render();
     };
-    MainApp.prototype.update = function () {
+    MainApp08.prototype.update = function () {
         this.controls.update();
     };
-    MainApp.prototype.animate = function () {
+    MainApp08.prototype.animate = function () {
         var _this = this;
         requestAnimationFrame(function (e) { return _this.animate(); });
         this.render();
         this.update();
     };
-    return MainApp;
+    MainApp08.prototype.requestShader = function () {
+        var loadedShaders = {};
+        // Get all of the shaders from the DOM
+        var vertexShaders = $('script[type="x-shader/x-vertex"]');
+        var fragmentShaders = $('script[type="x-shader/x-fragment"]');
+        var unloadedRemaining = vertexShaders.length + fragmentShaders.length;
+        // Load vertex shaders
+        var shader;
+        var i, shaderCount;
+        for (i = 0, shaderCount = vertexShaders.length; i < shaderCount; ++i) {
+            shader = vertexShaders[i];
+        }
+        for (i = 0, shaderCount = fragmentShaders.length; i < shaderCount; ++i) {
+            shader = fragmentShaders[i];
+        }
+    };
+    return MainApp08;
 })();
 window.addEventListener("load", function (e) {
     console.log("loaded");
-    var main = new MainApp();
+    var main = new MainApp08();
     main.animate();
 });

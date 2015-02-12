@@ -15,7 +15,7 @@ declare module THREE {
     export var CopyShader;
 }
 
-class MainApp {
+class MainApp08 {
     private scene:THREE.Scene;
     private camera:THREE.PerspectiveCamera;
     private renderer;
@@ -124,10 +124,34 @@ class MainApp {
         this.update();
     }
 
+    private requestShader(){
+      var loadedShaders = {};
+
+      // Get all of the shaders from the DOM
+      var vertexShaders = $('script[type="x-shader/x-vertex"]');
+      var fragmentShaders = $('script[type="x-shader/x-fragment"]');
+
+      var unloadedRemaining = vertexShaders.length + fragmentShaders.length;
+
+      // Load vertex shaders
+      var shader;
+      var i, shaderCount;
+      for (i = 0, shaderCount = vertexShaders.length; i < shaderCount; ++i){
+          shader = vertexShaders[i];
+          //loadShaderFile(shader, "vertex");
+      }
+
+        // Load fragment shaders
+        for (i = 0, shaderCount = fragmentShaders.length; i < shaderCount; ++i)
+        {
+          shader = fragmentShaders[i];
+          //loadShaderFile(shader, "fragment");
+        }
+    }
 }
 
 window.addEventListener("load", (e) => {
     console.log("loaded");
-    var main:MainApp = new MainApp();
+    var main:MainApp08 = new MainApp08();
     main.animate()
 });
