@@ -33,7 +33,7 @@ class MainApp08 {
         } else {
             this.renderer = new THREE.CanvasRenderer();
         }
-        this.renderer.setSize( window.innerWidth, window.innerHeight);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setClearColor(0xffffff);
         this.renderer.shadowMapEnabled = true;
 
@@ -72,7 +72,7 @@ class MainApp08 {
         this.scene.add(axis);
 
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        container.addEventListener("mousemove", ((e) =>{
+        container.addEventListener("mousemove", ((e) => {
             var mouseX, mouseY;
             mouseX = e.clientX - 600 / 2;
             mouseY = e.clientY - 400 / 2;
@@ -100,7 +100,7 @@ class MainApp08 {
         toScreen.renderToScreen = true;
     }
 
-    private onWindowResize = function() {
+    private onWindowResize = function () {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -124,28 +124,82 @@ class MainApp08 {
         this.update();
     }
 
-    private requestShader(){
-      var loadedShaders = {};
+    // todo shader loading
+    private requestShader(onShadersLoaded) {
 
-      // Get all of the shaders from the DOM
-      var vertexShaders = $('script[type="x-shader/x-vertex"]');
-      var fragmentShaders = $('script[type="x-shader/x-fragment"]');
+        var loadedShaders = {};
 
-      var unloadedRemaining = vertexShaders.length + fragmentShaders.length;
+        // Get all of the shaders from the DOM
+        var vertexShaders = $('script[type="x-shader/x-vertex"]');
+        var fragmentShaders = $('script[type="x-shader/x-fragment"]');
 
-      // Load vertex shaders
-      var shader;
-      var i, shaderCount;
-      for (i = 0, shaderCount = vertexShaders.length; i < shaderCount; ++i){
-          shader = vertexShaders[i];
-          //loadShaderFile(shader, "vertex");
-      }
+        var unloadedRemaining = vertexShaders.length + fragmentShaders.length;
+
+        var checkForRemaining = function () {
+            if (unloadedRemaining <= 0 && onShadersLoaded) {
+                onShadersLoaded(loadedShaders);
+            }
+        }
+
+        /**
+         * Loads an external shader file asynchronously using AJAX
+         *
+         * @param {Object} The shader script tag from the DOM
+         * @param {String} The type of shader [vertex|fragment]
+         */
+        var loadShaderFile = function (shaderElement, type) {
+            /**
+             * Processes a shader that comes back from
+             * the AJAX and stores it in the Shaders
+             * Object for later on
+             *
+             * @param {Object} The jQuery XHR object
+             * @param {String} The response text, e.g. success, error
+             */
+            var onComplete = function onComplete(jqXHR, textStatus) {
+                --unloadedRemaining;
+
+                if (!loadedShaders[name]) {
+                    loadedShaders[name] = {
+                        vertex: "",
+                        fragment: ""
+                    };
+                }
+
+                loadedShaders[name][type] = jqXHR.responseText;
+
+                checkForRemaining();
+            }
+
+            var element = $(shaderElement);
+            var url = element.data("src");
+            var name = element.data("name");
+
+            $.ajax(
+                {
+                    url: url,
+                    dataType: "text",
+                    context: {
+                        name: name,
+                        type: type
+                    },
+                    complete: onComplete
+                }
+            );
+        }
+
+        // Load vertex shaders
+        var shader;
+        var i, shaderCount;
+        for (i = 0, shaderCount = vertexShaders.length; i < shaderCount; ++i) {
+            shader = vertexShaders[i];
+            //loadShaderFile(shader, "vertex");
+        }
 
         // Load fragment shaders
-        for (i = 0, shaderCount = fragmentShaders.length; i < shaderCount; ++i)
-        {
-          shader = fragmentShaders[i];
-          //loadShaderFile(shader, "fragment");
+        for (i = 0, shaderCount = fragmentShaders.length; i < shaderCount; ++i) {
+            shader = fragmentShaders[i];
+            loadShaderFile(shader, "fragment");
         }
     }
 }
@@ -153,5 +207,4 @@ class MainApp08 {
 window.addEventListener("load", (e) => {
     console.log("loaded");
     var main:MainApp08 = new MainApp08();
-    main.animate()
 });
