@@ -31,7 +31,7 @@ class MainApp07 {
         if (WebGLRenderingContext) {//window参照しなくていい
             this.renderer = new THREE.WebGLRenderer();
         } else {
-            this.renderer = new THREE.CanvasRenderer();
+            //this.renderer = new THREE.CanvasRenderer();
         }
         this.renderer.setSize( window.innerWidth, window.innerHeight);
         this.renderer.setClearColor(0xffffff);
