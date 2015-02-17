@@ -1,17 +1,29 @@
 # Practice Three.js
 
-## p01 cube
+## attention 
+when you will use TypeScript, install DefinitelyTyped files in src/typescript
 
-## p02 world
+```
+cd src/typescript
+git clone https://github.com/borisyankov/DefinitelyTyped.git
+```
 
-## p03 particle
+## mock/samples
+### p01 cube
 
-## p04 loading from bvh & play
+### p02 world
 
-## p05 pixel shader by Effect Composer
+### p03 particle
+
+### p04 loading from bvh & play
+
+### p05 pixel shader by Effect Composer
     
-## p06 webcam + pixel shader
+### p06 webcam + pixel shader
 
-## p07 typescript
+### p07 typescript
 
-## p08 GLSL
+### p08 GLSL
+
+### p09 TBA
+
