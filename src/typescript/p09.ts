@@ -35,22 +35,30 @@ class MainApp09 {
         window.addEventListener("resize", this.onWindowResize, false);
 
         //5 オブジェクト追加
+        //座標軸追加
+        var axis = new THREE.AxisHelper(1000);
+        axis.position.set(0, 0, 0);
+        this.scene.add(axis);
+
         //光源追加
         var directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1);
         directionalLight.position.set(0, 100, 30);
         directionalLight.castShadow = true;
         this.scene.add(directionalLight);
+
         //cube追加
         var geometry = new THREE.CubeGeometry(40, 40, 40);
-        var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        var material = new THREE.MeshPhongMaterial({ color: 0xff0000,wireframe:true });
         var cube = new THREE.Mesh(geometry, material);
         cube.position.set(0, 60, 0);
         cube.castShadow = true;
         this.scene.add(cube);
-        //座標軸追加
-        var axis = new THREE.AxisHelper(1000);
-        axis.position.set(0, 0, 0);
-        this.scene.add(axis);
+
+        geometry = new THREE.PlaneGeometry( 150, 150, 64, 64 );
+        material = new THREE.MeshPhongMaterial({ color: 0x000000,wireframe:true });
+        var ground  = new THREE.Mesh(geometry,material);
+        ground.rotation.x = Math.PI / -2;
+        this.scene.add( ground );
 
         //マウス制御機能追加
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
