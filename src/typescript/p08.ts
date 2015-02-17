@@ -1,7 +1,6 @@
 //定義ファイル
-/// <reference path="three.d.ts" />
+/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="stats.d.ts" />
-/// <reference path="jquery.d.ts" />
 
 class MainApp08 {
     private scene:THREE.Scene;

@@ -1,6 +1,5 @@
 //定義ファイル
-/// <reference path="three.d.ts" />
-/// <reference path="jquery.d.ts" />
+/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 var MainApp07 = (function () {
     function MainApp07() {
         this.onWindowResize = function () {
@@ -16,7 +15,6 @@ var MainApp07 = (function () {
             this.renderer = new THREE.WebGLRenderer();
         }
         else {
-            this.renderer = new THREE.CanvasRenderer();
         }
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setClearColor(0xffffff);

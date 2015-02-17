@@ -1,6 +1,5 @@
 //定義ファイル
-/// <reference path="three.d.ts" />
-/// <reference path="jquery.d.ts" />
+/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 
 //extension/shaderを使えるようにする
 declare module THREE {
