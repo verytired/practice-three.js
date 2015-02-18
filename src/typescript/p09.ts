@@ -23,7 +23,13 @@ class MainApp09 {
         this.scene = new THREE.Scene();
 
         //3.レンダラー追加
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: false,
+            clearColor: 0x000000,
+            clearAlpha: 0,
+            alpha: true,
+            preserveDrawingBuffer: true
+        });
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xffffff);
         this.renderer.shadowMapEnabled = true;
@@ -33,7 +39,7 @@ class MainApp09 {
         this.container.appendChild(this.renderer.domElement);
         //リサイズ処理
         this.onWindowResize();
-        window.addEventListener("resize", this.onWindowResize, false);
+        window.addEventListener("resize", (e)=>{this.onWindowResize()}, false);
 
         //5 オブジェクト追加
         //座標軸追加
@@ -71,11 +77,27 @@ class MainApp09 {
 
         //マウス制御機能追加
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        this.container.addEventListener("mousemove", ((e) => {
+        this.container.addEventListener("mousemove", (e) => {
             var mouseX, mouseY;
             mouseX = e.clientX - 600 / 2;
             mouseY = e.clientY - 400 / 2;
-        }), false);
+        }, false);
+
+        /*** ADDING SCREEN SHOT ABILITY ***/
+        window.addEventListener("keyup", (e)=>{
+            var imgData, imgNode;
+            //Listen to 'P' key
+            if(e.which !== 80) return;
+            try {
+                imgData = this.renderer.domElement.toDataURL();
+                console.log(imgData);
+            }
+            catch(e) {
+                console.log(e)
+                console.log("Browser does not support taking screenshot of 3d context");
+                return;
+            }
+        });
 
     }
 
