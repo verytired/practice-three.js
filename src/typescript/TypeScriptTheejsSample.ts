@@ -54,7 +54,7 @@ class TypeScriptTheejsSample {
 
         //マウス制御機能追加
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        container.addEventListener("mousemove", ((e) =>{
+        this.   container.addEventListener("mousemove", ((e) =>{
             var mouseX, mouseY;
             mouseX = e.clientX - 600 / 2;
             mouseY = e.clientY - 400 / 2;
