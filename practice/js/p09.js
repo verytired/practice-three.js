@@ -41,7 +41,7 @@ var MainApp09 = (function () {
         cube.castShadow = true;
         this.scene.add(cube);
         this.geometry2 = new THREE.PlaneGeometry(150, 150, 64, 64);
-        material = new THREE.MeshPhongMaterial({ color: 0x000000, wireframe: true });
+        material = new THREE.MeshPhongMaterial({ color: 0x3333333, wireframe: false });
         var ground = new THREE.Mesh(this.geometry2, material);
         ground.rotation.x = Math.PI / -2;
         this.scene.add(ground);
@@ -50,6 +50,8 @@ var MainApp09 = (function () {
             var vertex = this.geometry2.vertices[i];
             vertex.z = pn.noise(vertex.x / 20, vertex.y / 20);
         }
+        this.geometry2.computeFaceNormals();
+        this.geometry2.computeVertexNormals();
         //マウス制御機能追加
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.container.addEventListener("mousemove", (function (e) {
