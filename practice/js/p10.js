@@ -1,3 +1,5 @@
+/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
 var AudioManager = (function () {
     function AudioManager(callback, callbackObj) {
         var _this = this;
@@ -56,6 +58,7 @@ var AudioManager = (function () {
 var MainApp10 = (function () {
     function MainApp10() {
         var _this = this;
+        this.isWireFrame = false;
         this.onWindowResize = function () {
             this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
@@ -85,8 +88,8 @@ var MainApp10 = (function () {
         this.scene.add(directionalLight);
         //cube追加
         var geometry = new THREE.CubeGeometry(40, 40, 40);
-        var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-        this.cube = new THREE.Mesh(geometry, material);
+        this.material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        this.cube = new THREE.Mesh(geometry, this.material);
         this.cube.position.set(0, 0, 0);
         this.cube.castShadow = true;
         this.scene.add(this.cube);
@@ -108,6 +111,12 @@ var MainApp10 = (function () {
         this.canvas = document.getElementById('visualizer');
         this.canvasContext = this.canvas.getContext('2d');
         this.canvas.setAttribute('width', this.audioManager.getAnalyser().frequencyBinCount * 10);
+        var gui = new dat.GUI();
+        var wireframeControl = gui.add(this, 'isWireFrame');
+        wireframeControl.onChange(function (value) {
+            console.log(value);
+            _this.material.wireframe = value;
+        });
     }
     MainApp10.prototype.update = function () {
         this.spectrums = this.audioManager.getSpectrum();
