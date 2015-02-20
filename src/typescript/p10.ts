@@ -114,7 +114,7 @@ class MainApp10 {
 				var geometry = new THREE.CubeGeometry(40, 40, 40);
 				var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
 				this.cube = new THREE.Mesh(geometry, material);
-				this.cube.position.set(0, 60, 0);
+				this.cube.position.set(0, 0, 0);
 				this.cube.castShadow = true;
 				this.scene.add(this.cube);
 				//座標軸追加
@@ -124,7 +124,7 @@ class MainApp10 {
 
 				//マウス制御機能追加
 				this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-				this.container.addEventListener("mousemove", ((e) =>{
+				this.container.addEventListener("mousemove", ((e) => {
 						var mouseX, mouseY;
 						mouseX = e.clientX - 600 / 2;
 						mouseY = e.clientY - 400 / 2;
@@ -141,13 +141,13 @@ class MainApp10 {
 				this.canvas.setAttribute('width', this.audioManager.getAnalyser().frequencyBinCount * 10);
 		}
 
-		private onWindowResize = function() {
+		private onWindowResize = function () {
 				this.camera.aspect = window.innerWidth / window.innerHeight;
 				this.camera.updateProjectionMatrix();
 				this.renderer.setSize(window.innerWidth, window.innerHeight);
 		}
 
-		private update(){
+		private update() {
 				this.spectrums = this.audioManager.getSpectrum();
 				//this.draw(spectrums);
 		}
@@ -164,7 +164,8 @@ class MainApp10 {
 
 		private render() {
 				var d = this.spectrums[7];
-				this.cube.position.y = d
+				//this.cube.position.y = d
+				this.cube.scale.set(d / 100, d / 100, d / 100);
 				this.renderer.render(this.scene, this.camera);
 		}
 

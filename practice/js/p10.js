@@ -87,7 +87,7 @@ var MainApp10 = (function () {
         var geometry = new THREE.CubeGeometry(40, 40, 40);
         var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
         this.cube = new THREE.Mesh(geometry, material);
-        this.cube.position.set(0, 60, 0);
+        this.cube.position.set(0, 0, 0);
         this.cube.castShadow = true;
         this.scene.add(this.cube);
         //座標軸追加
@@ -123,7 +123,8 @@ var MainApp10 = (function () {
     };
     MainApp10.prototype.render = function () {
         var d = this.spectrums[7];
-        this.cube.position.y = d;
+        //this.cube.position.y = d
+        this.cube.scale.set(d / 100, d / 100, d / 100);
         this.renderer.render(this.scene, this.camera);
     };
     MainApp10.prototype.animate = function () {
