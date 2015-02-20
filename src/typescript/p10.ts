@@ -1,3 +1,6 @@
+/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
+
 class AudioManager {
 
 		private source;
@@ -75,12 +78,14 @@ class MainApp10 {
 		private container;
 		private controls;
 		private cube;
-
+		private material;
+		private isWireFrame:Boolean =false;
 		private animationId;
 		private audioManager:AudioManager;
 		private canvas;
 		private canvasContext;
 		private spectrums;
+
 
 		constructor() {
 
@@ -92,7 +97,13 @@ class MainApp10 {
 				this.scene = new THREE.Scene();
 
 				//3.レンダラー追加
-				this.renderer = new THREE.WebGLRenderer();
+				this.renderer = new THREE.WebGLRenderer({
+						antialias: false,
+						clearColor: 0x000000,
+						clearAlpha: 0,
+						alpha: true,
+						preserveDrawingBuffer: true
+				});
 				this.renderer.setPixelRatio(window.devicePixelRatio);
 				this.renderer.setClearColor(0xffffff);
 				this.renderer.shadowMapEnabled = true;
@@ -112,8 +123,8 @@ class MainApp10 {
 				this.scene.add(directionalLight);
 				//cube追加
 				var geometry = new THREE.CubeGeometry(40, 40, 40);
-				var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-				this.cube = new THREE.Mesh(geometry, material);
+				this.material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+				this.cube = new THREE.Mesh(geometry, this.material);
 				this.cube.position.set(0, 0, 0);
 				this.cube.castShadow = true;
 				this.scene.add(this.cube);
@@ -139,6 +150,29 @@ class MainApp10 {
 				this.canvas = document.getElementById('visualizer');
 				this.canvasContext = this.canvas.getContext('2d');
 				this.canvas.setAttribute('width', this.audioManager.getAnalyser().frequencyBinCount * 10);
+
+
+				var gui = new dat.GUI();
+				var wireframeControl = gui.add(this, 'isWireFrame');
+				wireframeControl.onChange( (value)=> {
+						this.material.wireframe = value
+				});
+
+				/*** ADDING SCREEN SHOT ABILITY ***/
+				window.addEventListener("keyup", (e)=>{
+						var imgData, imgNode;
+						//Listen to 'P' key
+						if(e.which !== 80) return;
+						try {
+								imgData = this.renderer.domElement.toDataURL();
+								console.log(imgData);
+						}
+						catch(e) {
+								console.log(e)
+								console.log("Browser does not support taking screenshot of 3d context");
+								return;
+						}
+				});
 		}
 
 		private onWindowResize = function () {

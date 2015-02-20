@@ -70,7 +70,13 @@ var MainApp10 = (function () {
         //2.シーン追加
         this.scene = new THREE.Scene();
         //3.レンダラー追加
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: false,
+            clearColor: 0x000000,
+            clearAlpha: 0,
+            alpha: true,
+            preserveDrawingBuffer: true
+        });
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(0xffffff);
         this.renderer.shadowMapEnabled = true;
@@ -114,8 +120,23 @@ var MainApp10 = (function () {
         var gui = new dat.GUI();
         var wireframeControl = gui.add(this, 'isWireFrame');
         wireframeControl.onChange(function (value) {
-            console.log(value);
             _this.material.wireframe = value;
+        });
+        /*** ADDING SCREEN SHOT ABILITY ***/
+        window.addEventListener("keyup", function (e) {
+            var imgData, imgNode;
+            //Listen to 'P' key
+            if (e.which !== 80)
+                return;
+            try {
+                imgData = _this.renderer.domElement.toDataURL();
+                console.log(imgData);
+            }
+            catch (e) {
+                console.log(e);
+                console.log("Browser does not support taking screenshot of 3d context");
+                return;
+            }
         });
     }
     MainApp10.prototype.update = function () {
