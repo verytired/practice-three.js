@@ -1,3 +1,6 @@
+/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="DefinitelyTyped/tween.js/tween.js.d.ts" />
+
 declare module THREE {
 		export var OrbitControls;
 }
@@ -41,7 +44,7 @@ class MainApp11 {
 				directionalLight.castShadow = true;
 				this.scene.add(directionalLight);
 				//cube追加
-				var geometry = new THREE.CubeGeometry(40, 40, 40);
+				var geometry = new THREE.BoxGeometry(40, 40, 40);
 				var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
 				var cube = new THREE.Mesh(geometry, material);
 				cube.position.set(0, 60, 0);
@@ -65,6 +68,9 @@ class MainApp11 {
 				document.addEventListener('mousemove', ((e)=> {
 						this.onDocumentMouseMove(e)
 				}), false);
+				document.addEventListener('mousedown', ((e)=> {
+						this.onClick(e)
+				}), false);
 		}
 
 		private onWindowResize = function () {
@@ -80,7 +86,27 @@ class MainApp11 {
 				this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
 		}
 
+		private onClick(event) {
+				if (this.INTERSECTED === null) return;
+
+				var tw = new TWEEN.Tween(this.INTERSECTED.position).to({
+						x: 0,
+						y: 0,
+						z: 100 }, 2000)
+					.easing(TWEEN.Easing.Elastic.Out);
+				tw.start()
+
+				new TWEEN.Tween(this.INTERSECTED.rotation).to({
+						x: Math.random() * 2 * Math.PI,
+						y: Math.random() * 2 * Math.PI,
+						z: Math.random() * 2 * Math.PI }, 2000)
+					.easing(TWEEN.Easing.Elastic.Out).start();
+		}
+
 		private update() {
+				//tween.js update
+				TWEEN.update();
+
 				// find intersections
 				//mouseとcameraから当たり判定のあるオブジェクトを取得する
 				this.raycaster.setFromCamera(this.mouse, this.camera);
