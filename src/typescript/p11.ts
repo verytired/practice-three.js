@@ -1,15 +1,16 @@
-
-
 declare module THREE {
 		export var OrbitControls;
 }
 
-class TypeScriptTheejsSample {
+class MainApp11 {
 		private scene:THREE.Scene;
 		private camera:THREE.PerspectiveCamera;
 		private renderer;
 		private container;
 		private controls;
+		private mouse = new THREE.Vector2();
+		private INTERSECTED;
+		private raycaster;
 
 		constructor() {
 
@@ -41,15 +42,15 @@ class TypeScriptTheejsSample {
 				this.scene.add(directionalLight);
 				//cube追加
 				var geometry = new THREE.CubeGeometry(40, 40, 40);
-				var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+				var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
 				var cube = new THREE.Mesh(geometry, material);
 				cube.position.set(0, 60, 0);
 				cube.castShadow = true;
 				this.scene.add(cube);
 				//座標軸追加
-				var axis = new THREE.AxisHelper(1000);
-				axis.position.set(0, 0, 0);
-				this.scene.add(axis);
+//				var axis = new THREE.AxisHelper(1000);
+//				axis.position.set(0, 0, 0);
+//				this.scene.add(axis);
 
 				//マウス制御機能追加
 				this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
@@ -59,6 +60,11 @@ class TypeScriptTheejsSample {
 						mouseY = e.clientY - 400 / 2;
 				}), false);
 
+				//interactionテスト
+				this.raycaster = new THREE.Raycaster();
+				document.addEventListener('mousemove', ((e)=> {
+						this.onDocumentMouseMove(e)
+				}), false);
 		}
 
 		private onWindowResize = function () {
@@ -67,7 +73,30 @@ class TypeScriptTheejsSample {
 				this.renderer.setSize(window.innerWidth, window.innerHeight);
 		};
 
+		private onDocumentMouseMove(event) {
+				event.preventDefault();
+				//mouse座標変更
+				this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+		}
+
 		private update() {
+				// find intersections
+				//mouseとcameraから当たり判定のあるオブジェクトを取得する
+				this.raycaster.setFromCamera(this.mouse, this.camera);
+				var intersects = this.raycaster.intersectObjects(this.scene.children);
+				if (intersects.length > 0) {
+						if (this.INTERSECTED != intersects[ 0 ].object) {
+								if (this.INTERSECTED) this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
+								this.INTERSECTED = intersects[ 0 ].object;
+								this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
+								this.INTERSECTED.material.emissive.setHex(0xff0000);
+						}
+				} else {
+						if (this.INTERSECTED) this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
+						this.INTERSECTED = null;
+				}
+
 		}
 
 		private render() {
@@ -75,6 +104,7 @@ class TypeScriptTheejsSample {
 		}
 
 		public animate() {
+				this.update();
 				requestAnimationFrame((e)=>
 						this.animate()
 				);
@@ -83,6 +113,6 @@ class TypeScriptTheejsSample {
 }
 
 window.addEventListener("load", (e) => {
-		var main:TypeScriptTheejsSample = new TypeScriptTheejsSample();
+		var main:MainApp11 = new MainApp11();
 		main.animate();
 });

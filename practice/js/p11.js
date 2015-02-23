@@ -1,5 +1,7 @@
-var TypeScriptTheejsSample = (function () {
-    function TypeScriptTheejsSample() {
+var MainApp11 = (function () {
+    function MainApp11() {
+        var _this = this;
+        this.mouse = new THREE.Vector2();
         this.onWindowResize = function () {
             this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
@@ -29,15 +31,15 @@ var TypeScriptTheejsSample = (function () {
         this.scene.add(directionalLight);
         //cube追加
         var geometry = new THREE.CubeGeometry(40, 40, 40);
-        var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
         var cube = new THREE.Mesh(geometry, material);
         cube.position.set(0, 60, 0);
         cube.castShadow = true;
         this.scene.add(cube);
         //座標軸追加
-        var axis = new THREE.AxisHelper(1000);
-        axis.position.set(0, 0, 0);
-        this.scene.add(axis);
+        //				var axis = new THREE.AxisHelper(1000);
+        //				axis.position.set(0, 0, 0);
+        //				this.scene.add(axis);
         //マウス制御機能追加
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.container.addEventListener("mousemove", (function (e) {
@@ -45,20 +47,50 @@ var TypeScriptTheejsSample = (function () {
             mouseX = e.clientX - 600 / 2;
             mouseY = e.clientY - 400 / 2;
         }), false);
+        //interactionテスト
+        this.raycaster = new THREE.Raycaster();
+        document.addEventListener('mousemove', (function (e) {
+            _this.onDocumentMouseMove(e);
+        }), false);
     }
-    TypeScriptTheejsSample.prototype.update = function () {
+    MainApp11.prototype.onDocumentMouseMove = function (event) {
+        event.preventDefault();
+        //mouse座標変更
+        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     };
-    TypeScriptTheejsSample.prototype.render = function () {
+    MainApp11.prototype.update = function () {
+        // find intersections
+        //mouseとcameraから当たり判定のあるオブジェクトを取得する
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        var intersects = this.raycaster.intersectObjects(this.scene.children);
+        if (intersects.length > 0) {
+            if (this.INTERSECTED != intersects[0].object) {
+                if (this.INTERSECTED)
+                    this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
+                this.INTERSECTED = intersects[0].object;
+                this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
+                this.INTERSECTED.material.emissive.setHex(0xff0000);
+            }
+        }
+        else {
+            if (this.INTERSECTED)
+                this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
+            this.INTERSECTED = null;
+        }
+    };
+    MainApp11.prototype.render = function () {
         this.renderer.render(this.scene, this.camera);
     };
-    TypeScriptTheejsSample.prototype.animate = function () {
+    MainApp11.prototype.animate = function () {
         var _this = this;
+        this.update();
         requestAnimationFrame(function (e) { return _this.animate(); });
         this.render();
     };
-    return TypeScriptTheejsSample;
+    return MainApp11;
 })();
 window.addEventListener("load", function (e) {
-    var main = new TypeScriptTheejsSample();
+    var main = new MainApp11();
     main.animate();
 });
