@@ -15,19 +15,29 @@ class MainApp11 {
 		private INTERSECTED;
 		private raycaster;
 
+		private particles;
+		private pointCloud;
+		private particleCount = 5000;
+		private xSpeed=0.001;
+		private ySpeed=0.001;
+
 		constructor() {
 
 				//1.カメラ追加
-				this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-				this.camera.position.set(0, 70, 70);
+				//this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+				this.camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 3000);
+				this.camera.position.set(0, 0, 500);
 
 				//2.シーン追加
 				this.scene = new THREE.Scene();
 
+				this.scene.fog = new THREE.FogExp2(0xEEEEEE, 0.001);
 				//3.レンダラー追加
-				this.renderer = new THREE.WebGLRenderer();
+				this.renderer = new THREE.WebGLRenderer({
+						preserveDrawingBuffer: true
+				});
 				this.renderer.setPixelRatio(window.devicePixelRatio);
-				this.renderer.setClearColor(0xffffff);
+				this.renderer.setClearColor(0x666666);
 				this.renderer.shadowMapEnabled = true;
 
 				//4.表示コンテナ指定
@@ -51,9 +61,40 @@ class MainApp11 {
 				cube.castShadow = true;
 				this.scene.add(cube);
 				//座標軸追加
-//				var axis = new THREE.AxisHelper(1000);
-//				axis.position.set(0, 0, 0);
-//				this.scene.add(axis);
+				var axis = new THREE.AxisHelper(1000);
+				axis.position.set(0, 0, 0);
+				this.scene.add(axis);
+
+				//particle test
+				this.particleCount = 5000;
+				this.particles = new THREE.Geometry();
+
+				// マテリアルの設定
+				var materialParticle = new THREE.PointCloudMaterial({
+						color: 0xFFFFFF,
+						size: 5,
+						map: THREE.ImageUtils.loadTexture("images/particles.png"),
+						transparent: true
+				});
+				// パーティクルの位置の設定
+				for (var i = 0; i < this.particleCount; i++) {
+						var px = Math.random() * 1000 - 500,
+							py = Math.random() * 1000 - 500,
+							pz = Math.random() * 1000 - 500,
+							particle = new THREE.Vector3(px, py, pz);
+//							particle = new THREE.Vertex(
+//								new THREE.Vector3(px, py, pz)
+//							);
+						// パーティクルのべロシティの設定
+						particle.velocity = new THREE.Vector3(0, -Math.random(), 0);
+						this.particles.vertices.push(particle);
+				}
+				this.pointCloud = new THREE.PointCloud(this.particles, materialParticle);
+				// パーティクルの深さを毎フレームソート
+				this.pointCloud.sortParticles = true;
+				this.scene.add(this.pointCloud);
+
+				console.log(this.particles)
 
 				//マウス制御機能追加
 				this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
@@ -68,13 +109,30 @@ class MainApp11 {
 				document.addEventListener('mousemove', ((e)=> {
 						this.onDocumentMouseMove(e)
 				}), false);
-				document.addEventListener('mousedown', ((e)=> {
-						this.onClick(e)
-				}), false);
+
+//				document.addEventListener('mousedown', ((e)=> {
+//						this.onClick(e)
+//				}), false);
+
+				/*** ADDING SCREEN SHOT ABILITY ***/
+				window.addEventListener("keyup", (e)=>{
+						var imgData, imgNode;
+						//Listen to 'P' key
+						if(e.which !== 80) return;
+						try {
+								imgData = this.renderer.domElement.toDataURL();
+								console.log(imgData);
+						}
+						catch(e) {
+								console.log(e)
+								console.log("Browser does not support taking screenshot of 3d context");
+								return;
+						}
+				});
 		}
 
 		private onWindowResize = function () {
-				this.camera.aspect = window.innerWidth / window.innerHeight;
+				//this.camera.aspect = window.innerWidth / window.innerHeight;
 				this.camera.updateProjectionMatrix();
 				this.renderer.setSize(window.innerWidth, window.innerHeight);
 		};
@@ -89,10 +147,10 @@ class MainApp11 {
 		private onClick(event) {
 				if (this.INTERSECTED === null) return;
 
-				var tw = new TWEEN.Tween(this.INTERSECTED.position).to({
-						x: 0,
-						y: 0,
-						z: 100 }, 2000)
+				var tw = new TWEEN.Tween(this.INTERSECTED.scale).to({
+						x: 2,
+						y: 2,
+						z: 2.0 }, 2000)
 					.easing(TWEEN.Easing.Elastic.Out);
 				tw.start()
 
@@ -106,6 +164,10 @@ class MainApp11 {
 		private update() {
 				//tween.js update
 				TWEEN.update();
+
+				this.updateParticles();
+
+				return
 
 				// find intersections
 				//mouseとcameraから当たり判定のあるオブジェクトを取得する
@@ -123,6 +185,30 @@ class MainApp11 {
 						this.INTERSECTED = null;
 				}
 
+		}
+
+		private updateParticles() {
+
+				// y軸回転のアニメーション
+				this.pointCloud.rotation.y += this.xSpeed;
+
+				var Count = this.particleCount;
+				// パーティクルの落下の設定
+				while (Count--) {
+						var particle = this.particles.vertices[ Count ];
+						// スクリーン下に出たら戻る処理
+						if (particle.y < -400) {
+								particle.y = 400;
+								particle.velocity.y = -Math.random();
+						}
+//						console.log(particle.velocity)
+						particle.y -= Math.random() * this.ySpeed;
+//						console.log(particle.add)
+						particle.add(particle.velocity);
+
+				}
+				// 頂点変更処理
+				this.pointCloud.geometry.verticesNeedUpdate = true
 		}
 
 		private render() {
