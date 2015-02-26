@@ -42,34 +42,28 @@ var MainApp13 = (function () {
         axis.position.set(0, 0, 0);
         this.scene.add(axis);
         //マウス制御機能追加
-        //				this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        //				this.container.addEventListener("mousemove", ((e) => {
-        //						var mouseX, mouseY;
-        //						mouseX = e.clientX - 600 / 2;
-        //						mouseY = e.clientY - 400 / 2;
-        //				}), false);
         this.controls = new THREE.OrbitControls(this.camera);
         // SKYBOX
         var urls = ['data/skybox/01.jpg', 'data/skybox/02.jpg', 'data/skybox/03.jpg', 'data/skybox/04.jpg', 'data/skybox/05.jpg', 'data/skybox/06.jpg'];
         this.skyboxScene = new THREE.Scene();
         this.skyboxCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
         var textureCube = THREE.ImageUtils.loadTextureCube(urls);
-        var material2 = new THREE.MeshBasicMaterial({ color: 0xffffff, envMap: textureCube });
-        var shader = THREE.ShaderLib["cube"];
-        shader.uniforms["tCube"].value = textureCube;
-        var material3 = new THREE.ShaderMaterial({
+        var shader = THREE.ShaderLib["cube"]; //1.標準シェーダー定義からcube用シェーダーを取得
+        shader.uniforms["tCube"].value = textureCube; //2.シェーダーにtextureを指定
+        //3.shaderMaterialを生成 読み込んだtextureを適用させる
+        //裏面だけに描画するように指定
+        var skyboxMaterial = new THREE.ShaderMaterial({
             fragmentShader: shader.fragmentShader,
             vertexShader: shader.vertexShader,
             uniforms: shader.uniforms,
             depthWrite: false,
             side: THREE.BackSide
         });
-        var skybox = new THREE.Mesh(new THREE.CubeGeometry(100, 100, 100), material3);
+        //4.Meshを生成する
+        var skybox = new THREE.Mesh(new THREE.CubeGeometry(400, 400, 400), skyboxMaterial);
         this.skyboxScene.add(skybox);
         //cube追加
-        var geometry = new THREE.BoxGeometry(40, 40, 40);
-        var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-        var cube = new THREE.Mesh(geometry, material);
+        var cube = new THREE.Mesh(new THREE.BoxGeometry(40, 40, 40), new THREE.MeshPhongMaterial({ color: 0x0000ff }));
         cube.position.set(0, 120, 120);
         cube.castShadow = true;
         this.skyboxScene.add(cube);
@@ -96,6 +90,7 @@ var MainApp13 = (function () {
     MainApp13.prototype.render = function () {
         //位置を追従させる
         this.skyboxCamera.rotation.copy(this.camera.rotation);
+        this.skyboxCamera.position.copy(this.camera.position);
         this.renderer.render(this.scene, this.camera);
         this.renderer.render(this.skyboxScene, this.skyboxCamera);
     };
