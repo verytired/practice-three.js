@@ -63,12 +63,13 @@ class MainApp13 {
 				this.controls = new THREE.OrbitControls(this.camera);
 
 				// SKYBOX
-				var urls = ['data/skybox/01.jpg',
-						'data/skybox/02.jpg',
-						'data/skybox/03.jpg',
-						'data/skybox/04.jpg',
-						'data/skybox/05.jpg',
-						'data/skybox/06.jpg'];
+				//画像の順序は左、右、上、下、奥、手前です。
+				var urls = ['data/skybox/cubemap1_left.png',
+						'data/skybox/cubemap1_right.png',
+						'data/skybox/cubemap1_up.png',
+						'data/skybox/cubemap1_down.png',
+						'data/skybox/cubemap1_front.png',
+						'data/skybox/cubemap1_back.png'];
 
 				this.skyboxScene = new THREE.Scene()
 				this.skyboxCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
