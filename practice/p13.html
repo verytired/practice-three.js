@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>p13</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body {
+			color: #ffffff;
+			font-family: Monospace;
+			font-size: 13px;
+			text-align: center;
+			font-weight: bold;
+			background-color: #000000;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		#info {
+			position: absolute;
+			top: 0px;
+			width: 100%;
+			padding: 5px;
+		}
+
+		a {
+			color: #ffffff;
+		}
+
+		#oldie a {
+			color: #da0
+		}
+	</style>
+</head>
+<body>
+<div id="container"></div>
+<script src="js/three.js/three.min.js"></script>
+<script src="js/three.js/loaders/ColladaLoader.js"></script>
+<script src="js/three.js/Stats.js"></script>
+<script src="js/three.js/OrbitControls.js"></script>
+<script src="js/three.js/Detector.js"></script>
+<script src="js/lib/dat.gui.min.js"></script>
+<script src="js/lib/tween.min.js"></script>
+<script src="js/p13.js"></script>
+<!--<script>-->
+	<!--// GLOBALS-->
+	<!--var container, scene, skyboxScene, camera, skyboxCamera, renderer, controls, stats;-->
+	<!--var mouseX = 0, mouseY = 0, windowHalfX, windowHalfY;-->
+
+	<!--function init() {-->
+		<!--if (!Detector.webgl) Detector.addGetWebGLMessage();-->
+
+		<!--// SCENE-->
+		<!--scene = new THREE.Scene();-->
+
+		<!--skyboxScene = new THREE.Scene();-->
+
+		<!--// CAMERA-->
+		<!--camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000 );-->
+		<!--camera.position.z = 1000;-->
+		<!--scene.add(camera);-->
+
+		<!--skyboxCamera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000 );-->
+
+
+		<!--// RENDERER-->
+		<!--if ( Detector.webgl) {-->
+			<!--renderer = new THREE.WebGLRenderer( {antialias:true} );-->
+		<!--} else {-->
+			<!--renderer = new THREE.CanvasRenderer();-->
+		<!--}-->
+
+		<!--// CONTAINER-->
+		<!--container = document.createElement('div');-->
+		<!--document.body.appendChild(container);-->
+		<!--container.appendChild(renderer.domElement);-->
+
+		<!--// POINT LIGHT-->
+		<!--var light = new THREE.PointLight(0xff0000);-->
+		<!--light.position.set(500, 500, 0);-->
+		<!--scene.add(light);-->
+
+		<!--// AMBIEND LIGHT-->
+		<!--var ambientLight = new THREE.AmbientLight(0xffffff);-->
+		<!--scene.add(ambientLight);-->
+
+		<!--// AXIS-->
+		<!--var axes = new THREE.AxisHelper(500);-->
+		<!--scene.add(axes);-->
+
+		<!--// SKYBOX-->
+		<!--var urls = ['data/skybox/01.jpg',-->
+			<!--'data/skybox/02.jpg',-->
+			<!--'data/skybox/03.jpg',-->
+			<!--'data/skybox/04.jpg',-->
+			<!--'data/skybox/05.jpg',-->
+			<!--'data/skybox/06.jpg'];-->
+
+		<!--var textureCube = THREE.ImageUtils.loadTextureCube(urls);-->
+		<!--var material = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube });-->
+		<!--var shader = THREE.ShaderLib["cube" ];-->
+		<!--shader.uniforms["tCube" ].value = textureCube;-->
+
+		<!--var material = new THREE.ShaderMaterial( {-->
+			<!--fragmentShader: shader.fragmentShader,-->
+			<!--vertexShader: shader.vertexShader,-->
+			<!--uniforms: shader.uniforms,-->
+			<!--depthWrite: false,-->
+			<!--side: THREE.BackSide-->
+		<!--});-->
+
+		<!--var skybox = new THREE.Mesh( new THREE.CubeGeometry( 100, 100, 100 ), material );-->
+		<!--skyboxScene.add(skybox);-->
+
+
+		<!--// STATS-->
+		<!--stats = new Stats();-->
+		<!--stats.domElement.style.position = 'absolute';-->
+		<!--stats.domElement.style.top = '0px';                //stats.domElement.style.bottom = '0px';-->
+		<!--stats.domElement.style.zIndex = 100;-->
+		<!--container.appendChild( stats.domElement );-->
+
+		<!--// MOUSE CONTROLS-->
+		<!--controls = new THREE.OrbitControls( camera );-->
+
+		<!--// RESIZE-->
+		<!--window.addEventListener('resize', resizeHandler, false);-->
+		<!--resizeHandler();-->
+
+		<!--// ANIMATE-->
+		<!--animate();-->
+	<!--}-->
+
+	<!--function resizeHandler() {-->
+		<!--windowHalfX = window.innerWidth / 2;-->
+		<!--windowHalfY = window.innerHeight / 2;-->
+
+		<!--camera.aspect = window.innerWidth / window.innerHeight;-->
+		<!--camera.updateProjectionMatrix();-->
+
+		<!--skyboxCamera.aspect = window.innerWidth / window.innerHeight;-->
+		<!--skyboxCamera.updateProjectionMatrix();-->
+
+		<!--renderer.setSize(window.innerWidth, window.innerHeight);-->
+
+		<!--render();-->
+	<!--}-->
+
+	<!--function animate() {-->
+		<!--requestAnimationFrame(animate);-->
+		<!--stats.update();-->
+		<!--controls.update();-->
+		<!--render();-->
+	<!--}-->
+
+	<!--function render() {-->
+		<!--camera.lookAt( scene.position );-->
+		<!--skyboxCamera.rotation.copy( camera.rotation );-->
+
+		<!--renderer.render( scene, camera );-->
+		<!--renderer.render( skyboxScene, skyboxCamera );-->
+	<!--}-->
+
+
+	<!--// Init-->
+	<!--window.addEventListener('load', init, false);-->
+<!--</script>-->
+</body>
+</html>
