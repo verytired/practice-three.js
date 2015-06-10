@@ -88,5 +88,5 @@ var MainApp15 = (function () {
 })();
 window.addEventListener("load", function (e) {
     var main = new MainApp15();
-    main.loadShader('data/shader/simple.vert', 'data/shader/sample7.frag');
+    main.loadShader('data/shader/simple.vert', 'data/shader/sample11.frag');
 });

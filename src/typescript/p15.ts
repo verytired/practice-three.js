@@ -107,5 +107,5 @@ class MainApp15 {
 
 window.addEventListener("load", (e) => {
 	var main:MainApp15 = new MainApp15();
-	main.loadShader('data/shader/simple.vert', 'data/shader/sample7.frag');
+	main.loadShader('data/shader/simple.vert', 'data/shader/sample11.frag');
 });
