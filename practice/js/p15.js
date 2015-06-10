@@ -10,6 +10,7 @@ var MainApp15 = (function () {
         var _this = this;
         this.onWindowResize = function () {
             this.renderer.setSize(window.innerWidth, window.innerHeight);
+            //シェーダに画面サイズを送信
             this.uniforms.resolution.value.x = this.renderer.domElement.width;
             this.uniforms.resolution.value.y = this.renderer.domElement.height;
         };
@@ -17,6 +18,7 @@ var MainApp15 = (function () {
         this.camera = new THREE.Camera();
         this.camera.position.z = 1;
         this.scene = new THREE.Scene();
+        //シェーダーへの送信パラメータを定義する
         this.uniforms = {
             time: { type: "f", value: 1.0 },
             resolution: { type: "v2", value: new THREE.Vector2() }
@@ -35,6 +37,8 @@ var MainApp15 = (function () {
     }
     MainApp15.prototype.makeMesh = function () {
         var geometry = new THREE.PlaneBufferGeometry(2, 2);
+        //shaderMaterial生成
+        //送信パラメータ / 頂点シェーダ / フラグメントシェーダを指定する
         var material = new THREE.ShaderMaterial({
             uniforms: this.uniforms,
             vertexShader: this.vs,
@@ -42,10 +46,9 @@ var MainApp15 = (function () {
         });
         var mesh = new THREE.Mesh(geometry, material);
         this.scene.add(mesh);
-        this.animate();
     };
     MainApp15.prototype.render = function () {
-        this.uniforms.time.value += 0.05;
+        this.uniforms.time.value += 0.05; //シェーダーに経過時間を送信
         this.renderer.render(this.scene, this.camera);
     };
     MainApp15.prototype.animate = function () {
@@ -63,7 +66,9 @@ var MainApp15 = (function () {
             success: function (data) {
                 _this.vs = data;
                 if (_this.fg != undefined) {
+                    //シェーダ読込完了してたらmeshを生成シーンに追加して再生開始
                     _this.makeMesh();
+                    _this.animate();
                 }
             }
         });
@@ -72,7 +77,9 @@ var MainApp15 = (function () {
             success: function (data) {
                 _this.fg = data;
                 if (_this.vs != undefined) {
+                    //シェーダ読込完了してたらmeshを生成シーンに追加して再生開始
                     _this.makeMesh();
+                    _this.animate();
                 }
             }
         });
@@ -81,5 +88,5 @@ var MainApp15 = (function () {
 })();
 window.addEventListener("load", function (e) {
     var main = new MainApp15();
-    main.loadShader('data/shader/simple.vert', 'data/shader/simple.frag');
+    main.loadShader('data/shader/simple.vert', 'data/shader/sample7.frag');
 });

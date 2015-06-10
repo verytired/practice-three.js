@@ -23,6 +23,7 @@ class MainApp15 {
 
 		this.scene = new THREE.Scene();
 
+		//シェーダーへの送信パラメータを定義する
 		this.uniforms = {
 			time: {type: "f", value: 1.0},
 			resolution: {type: "v2", value: new THREE.Vector2()}
@@ -45,28 +46,28 @@ class MainApp15 {
 	}
 
 	private makeMesh() {
-
 		var geometry = new THREE.PlaneBufferGeometry(2, 2);
-
+		//shaderMaterial生成
+		//送信パラメータ / 頂点シェーダ / フラグメントシェーダを指定する
 		var material = new THREE.ShaderMaterial({
 			uniforms: this.uniforms,
 			vertexShader: this.vs,
-			fragmentShader: this.fg,
+			fragmentShader: this.fg
 		});
-
 		var mesh = new THREE.Mesh(geometry, material);
 		this.scene.add(mesh);
-		this.animate()
 	}
 
 	private onWindowResize = function () {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
+		//シェーダに画面サイズを送信
 		this.uniforms.resolution.value.x = this.renderer.domElement.width;
 		this.uniforms.resolution.value.y = this.renderer.domElement.height;
 	};
 
 	private render() {
-		this.uniforms.time.value += 0.05;
+		this.uniforms.time.value += 0.05;//シェーダーに経過時間を送信
+
 		this.renderer.render(this.scene, this.camera);
 	}
 
@@ -84,7 +85,9 @@ class MainApp15 {
 			success: (data)=> {
 				this.vs = data
 				if (this.fg != undefined) {
-					this.makeMesh()
+					//シェーダ読込完了してたらmeshを生成シーンに追加して再生開始
+					this.makeMesh();
+					this.animate();
 				}
 			}
 		});
@@ -93,7 +96,9 @@ class MainApp15 {
 			success: (data)=> {
 				this.fg = data
 				if (this.vs != undefined) {
-					this.makeMesh()
+					//シェーダ読込完了してたらmeshを生成シーンに追加して再生開始
+					this.makeMesh();
+					this.animate();
 				}
 			}
 		});
@@ -102,5 +107,5 @@ class MainApp15 {
 
 window.addEventListener("load", (e) => {
 	var main:MainApp15 = new MainApp15();
-	main.loadShader('data/shader/simple.vert', 'data/shader/simple.frag');
+	main.loadShader('data/shader/simple.vert', 'data/shader/sample7.frag');
 });
