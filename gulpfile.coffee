@@ -39,6 +39,7 @@ gulp.task 'serve', ['default'], ->
 			baseDir: [parentDir]
 	gulp.watch ['src/coffee/*.coffee'], ['script']
 	gulp.watch ['src/typescript/*.ts'], ['script_type']
+	gulp.watch ['practice/data/shader/*.*'], ['script_type']
 	gulp.watch [parentDir + '*.html'], reload
 
 #coffee compile&reload
