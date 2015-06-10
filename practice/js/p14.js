@@ -60,7 +60,9 @@ var MainApp14 = (function () {
     MainApp14.prototype.animate = function () {
         var _this = this;
         this.update();
-        requestAnimationFrame(function (e) { return _this.animate(); });
+        requestAnimationFrame(function (e) {
+            return _this.animate();
+        });
         this.render();
     };
     return MainApp14;

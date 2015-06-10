@@ -29,9 +29,7 @@ var MainApp09 = (function () {
         this.container.appendChild(this.renderer.domElement);
         //リサイズ処理
         this.onWindowResize();
-        window.addEventListener("resize", function (e) {
-            _this.onWindowResize();
-        }, false);
+        window.addEventListener("resize", function (e) { _this.onWindowResize(); }, false);
         //5 オブジェクト追加
         //座標軸追加
         var axis = new THREE.AxisHelper(1000);
@@ -97,7 +95,9 @@ var MainApp09 = (function () {
     };
     MainApp09.prototype.animate = function () {
         var _this = this;
-        requestAnimationFrame(function (e) { return _this.animate(); });
+        requestAnimationFrame(function (e) {
+            return _this.animate();
+        });
         this.render();
     };
     return MainApp09;

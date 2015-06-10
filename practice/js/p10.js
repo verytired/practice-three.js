@@ -161,7 +161,9 @@ var MainApp10 = (function () {
         var _this = this;
         this.update();
         this.draw(this.spectrums);
-        requestAnimationFrame(function (e) { return _this.animate(); });
+        requestAnimationFrame(function (e) {
+            return _this.animate();
+        });
         this.render();
     };
     return MainApp10;

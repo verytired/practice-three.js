@@ -129,7 +129,7 @@ var SimplexNoise = (function () {
         if (x0 > y0) {
             i1 = 1;
             j1 = 0;
-        }
+        } // lower triangle, XY order: (0,0)->(1,0)->(1,1)
         else {
             i1 = 0;
             j1 = 1;
@@ -202,7 +202,7 @@ var SimplexNoise = (function () {
                 i2 = 1;
                 j2 = 1;
                 k2 = 0;
-            }
+            } // X Y Z order
             else if (x0 >= z0) {
                 i1 = 1;
                 j1 = 0;
@@ -210,7 +210,7 @@ var SimplexNoise = (function () {
                 i2 = 1;
                 j2 = 0;
                 k2 = 1;
-            }
+            } // X Z Y order
             else {
                 i1 = 0;
                 j1 = 0;
@@ -228,7 +228,7 @@ var SimplexNoise = (function () {
                 i2 = 0;
                 j2 = 1;
                 k2 = 1;
-            }
+            } // Z Y X order
             else if (x0 < z0) {
                 i1 = 0;
                 j1 = 1;
@@ -236,7 +236,7 @@ var SimplexNoise = (function () {
                 i2 = 0;
                 j2 = 1;
                 k2 = 1;
-            }
+            } // Y Z X order
             else {
                 i1 = 0;
                 j1 = 1;

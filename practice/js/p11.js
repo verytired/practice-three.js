@@ -70,14 +70,14 @@ var MainApp11 = (function () {
         var tw = new TWEEN.Tween(this.INTERSECTED.position).to({
             x: 0,
             y: 0,
-            z: 100
-        }, 2000).easing(TWEEN.Easing.Elastic.Out);
+            z: 100 }, 2000)
+            .easing(TWEEN.Easing.Elastic.Out);
         tw.start();
         new TWEEN.Tween(this.INTERSECTED.rotation).to({
             x: Math.random() * 2 * Math.PI,
             y: Math.random() * 2 * Math.PI,
-            z: Math.random() * 2 * Math.PI
-        }, 2000).easing(TWEEN.Easing.Elastic.Out).start();
+            z: Math.random() * 2 * Math.PI }, 2000)
+            .easing(TWEEN.Easing.Elastic.Out).start();
     };
     MainApp11.prototype.update = function () {
         //tween.js update
@@ -107,7 +107,9 @@ var MainApp11 = (function () {
     MainApp11.prototype.animate = function () {
         var _this = this;
         this.update();
-        requestAnimationFrame(function (e) { return _this.animate(); });
+        requestAnimationFrame(function (e) {
+            return _this.animate();
+        });
         this.render();
     };
     return MainApp11;

@@ -45,7 +45,12 @@ var MainApp13 = (function () {
         this.controls = new THREE.OrbitControls(this.camera);
         // SKYBOX
         //画像の順序は左、右、上、下、奥、手前です。
-        var urls = ['data/skybox/cubemap1_left.png', 'data/skybox/cubemap1_right.png', 'data/skybox/cubemap1_up.png', 'data/skybox/cubemap1_down.png', 'data/skybox/cubemap1_front.png', 'data/skybox/cubemap1_back.png'];
+        var urls = ['data/skybox/cubemap1_left.png',
+            'data/skybox/cubemap1_right.png',
+            'data/skybox/cubemap1_up.png',
+            'data/skybox/cubemap1_down.png',
+            'data/skybox/cubemap1_front.png',
+            'data/skybox/cubemap1_back.png'];
         this.skyboxScene = new THREE.Scene();
         this.skyboxCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
         var textureCube = THREE.ImageUtils.loadTextureCube(urls);
@@ -98,7 +103,9 @@ var MainApp13 = (function () {
     MainApp13.prototype.animate = function () {
         var _this = this;
         this.update();
-        requestAnimationFrame(function (e) { return _this.animate(); });
+        requestAnimationFrame(function (e) {
+            return _this.animate();
+        });
         this.render();
     };
     return MainApp13;

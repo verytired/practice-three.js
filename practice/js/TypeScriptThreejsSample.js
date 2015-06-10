@@ -55,7 +55,9 @@ var TypeScriptTheejsSample = (function () {
     };
     TypeScriptTheejsSample.prototype.animate = function () {
         var _this = this;
-        requestAnimationFrame(function (e) { return _this.animate(); });
+        requestAnimationFrame(function (e) {
+            return _this.animate();
+        });
         this.render();
     };
     return TypeScriptTheejsSample;

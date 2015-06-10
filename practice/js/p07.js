@@ -85,7 +85,9 @@ var MainApp07 = (function () {
     };
     MainApp07.prototype.animate = function () {
         var _this = this;
-        requestAnimationFrame(function (e) { return _this.animate(); });
+        requestAnimationFrame(function (e) {
+            return _this.animate();
+        });
         this.render();
         this.update();
     };

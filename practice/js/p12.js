@@ -52,6 +52,7 @@ var MainApp12 = (function () {
             map: THREE.ImageUtils.loadTexture("images/particles.png"),
             transparent: true
         });
+        // パーティクルの位置の設定
         for (var i = 0; i < this.particleCount; i++) {
             var px = Math.random() * 1000 - 500, py = Math.random() * 1000 - 500, pz = Math.random() * 1000 - 500, particle = new THREE.Vector3(px, py, pz);
             // パーティクルのべロシティの設定 //typescriptだとコンパイル時に警告
@@ -125,6 +126,7 @@ var MainApp12 = (function () {
         // y軸回転のアニメーション
         this.pointCloud.rotation.y += this.xSpeed;
         var Count = this.particleCount;
+        // パーティクルの落下の設定
         while (Count--) {
             var particle = this.particles.vertices[Count];
             // スクリーン下に出たら戻る処理
@@ -144,7 +146,9 @@ var MainApp12 = (function () {
     MainApp12.prototype.animate = function () {
         var _this = this;
         this.update();
-        requestAnimationFrame(function (e) { return _this.animate(); });
+        requestAnimationFrame(function (e) {
+            return _this.animate();
+        });
         this.render();
     };
     return MainApp12;

@@ -77,7 +77,7 @@ class MainApp12 {
 						var px = Math.random() * 1000 - 500,
 							py = Math.random() * 1000 - 500,
 							pz = Math.random() * 1000 - 500,
-							particle = new THREE.Vector3(px, py, pz);
+							particle:any = new THREE.Vector3(px, py, pz);
 						// パーティクルのべロシティの設定 //typescriptだとコンパイル時に警告
 						particle.velocity = new THREE.Vector3(0, -Math.random(), 0);
 						this.particles.vertices.push(particle);
