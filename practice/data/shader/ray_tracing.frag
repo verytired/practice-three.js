@@ -13,6 +13,7 @@ struct Sphere{
     vec3  color;
 };
 
+//交差情報クラス
 struct Intersection{
 	bool hit;
 	vec3 hitPoint;
@@ -20,6 +21,7 @@ struct Intersection{
 	vec3 color;
 };
 
+//レイと球体の交差判定
 Intersection intersectSphere(Ray R, Sphere S){
 	Intersection i;
 	vec3  a = R.origin - S.position;
