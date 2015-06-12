@@ -1,4 +1,5 @@
 # Practice Three.js
+[http://verytired.github.io/practice-three.js/practice/](http://verytired.github.io/practice-three.js/practice/)
 
 ## attention 
 when you will use TypeScript, install DefinitelyTyped files in src/typescript
