@@ -1,8 +1,8 @@
-# Practice Three.js
+# SandBox Three.js
 Three.jsの学習/実験テスト用サンプル集です。
 
 
-[http://verytired.github.io/practice-three.js/practice/](http://verytired.github.io/practice-three.js/practice/)
+[http://verytired.github.io/sandbox-three.js/practice/](http://verytired.github.io/sandbox-three.js/practice/)
 
 ## Attention 
 when you will use TypeScript, install DefinitelyTyped files in src/typescript
