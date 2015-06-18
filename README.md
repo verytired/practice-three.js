@@ -56,4 +56,4 @@ Colladaファイルの読込とParticleの実装例
 2D表示の実装例
 
 ### p15 Loading GLSL Files
-外部GLSLファイルを読み込んで再生s
+外部GLSLファイルを読み込んで再生
