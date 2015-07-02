@@ -2,3 +2,7 @@
 .DS_Store
 *.iml
 node_modules
+
+# for dev
+tsconfig.json
+DefinitelyTyped

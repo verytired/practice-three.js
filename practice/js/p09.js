@@ -1,5 +1,6 @@
 //定義ファイル
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="config.ts" />
 var MainApp09 = (function () {
     function MainApp09() {
         var _this = this;

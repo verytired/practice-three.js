@@ -1,9 +1,7 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/tween.js/tween.js.d.ts" />
 
-declare module THREE {
-		export var OrbitControls;
-}
+/// <reference path="config.ts" />
 
 class MainApp11 {
 		private scene:THREE.Scene;

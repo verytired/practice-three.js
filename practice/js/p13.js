@@ -1,5 +1,6 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/tween.js/tween.js.d.ts" />
+/// <reference path="config.ts" />
 var MainApp13 = (function () {
     function MainApp13() {
         var _this = this;

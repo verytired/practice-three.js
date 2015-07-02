@@ -1,5 +1,6 @@
 //定義ファイル
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="config.ts" />
 var MainApp07 = (function () {
     function MainApp07() {
         this.onWindowResize = function () {

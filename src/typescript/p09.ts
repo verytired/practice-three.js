@@ -1,9 +1,7 @@
 //定義ファイル
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 
-declare module THREE {
-    export var OrbitControls;
-}
+/// <reference path="config.ts" />
 
 class MainApp09 {
     private scene:THREE.Scene;
