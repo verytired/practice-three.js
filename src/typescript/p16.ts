@@ -1,8 +1,6 @@
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />      \
-declare module THREE {
-	export var OrbitControls;
-}
+/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 
+/// <reference path="config.ts" />
 
 class MainApp16 {
 	private scene:THREE.Scene;
