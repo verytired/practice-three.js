@@ -3,7 +3,7 @@
  */
 //定義ファイル
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="stats.d.ts" />
+/// <reference path="DefinitelyTyped/stats/stats.d.ts" />
 /// <reference path="DefinitelyTyped/jquery/jquery.d.ts" />
 var MainApp15 = (function () {
     function MainApp15() {
