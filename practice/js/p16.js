@@ -1,4 +1,5 @@
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />      \
+/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="config.ts" />
 var MainApp16 = (function () {
     function MainApp16() {
         this.onWindowResize = function () {

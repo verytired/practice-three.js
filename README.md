@@ -4,7 +4,7 @@ Three.jsの学習/実験テスト用サンプル集です。
 
 [http://verytired.github.io/practice-three.js/practice/](http://verytired.github.io/practice-three.js/practice/)
 
-## Attention 
+## Attention
 when you will use TypeScript, install DefinitelyTyped files in src/typescript
 
 ```
@@ -27,7 +27,7 @@ bvhファイルを使ったアニメーション再生
 
 ### p05 Pixel shader by Effect Composer
 Effect Composer使用例
-    
+
 ### p06 Webcam + Pixel Shader
 webカメラにアクセスするテスト
 
@@ -43,10 +43,10 @@ GLSL使用例
 ### p10 Three.js + Web Audio API
 Three.js + Web Audio APIでのAudioReactive実装例
 
-### p11 Tween 
+### p11 Tween
 Tweenの使用例
 
-### p12 using Collada Model & Particle Motion (PointCloud) 
+### p12 using Collada Model & Particle Motion (PointCloud)
 Colladaファイルの読込とParticleの実装例
 
 ### p13 Skybox

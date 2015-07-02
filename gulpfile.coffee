@@ -31,6 +31,14 @@ gulp.task 'typescript', () ->
 	.pipe $.tsc()
 	.pipe gulp.dest parentDir + 'js'
 
+#sass compile
+gulp.task 'sass',()->
+	gulp
+	.src './src/css/*.scss'
+	.pipe $.plumber()
+	.pipe $.rubySass()
+	.pipe gulp.dest parentDir + 'css'
+
 #run server / watch
 gulp.task 'serve', ['default'], ->
 	browserSync
@@ -39,6 +47,7 @@ gulp.task 'serve', ['default'], ->
 			baseDir: [parentDir]
 	gulp.watch ['src/coffee/*.coffee'], ['script']
 	gulp.watch ['src/typescript/*.ts'], ['script_type']
+	gulp.watch ['src/css/*.scss'], ['script_sass']
 	gulp.watch ['practice/data/shader/*.*'], ['script_type']
 	gulp.watch [parentDir + '*.html'], reload
 
@@ -49,3 +58,7 @@ gulp.task 'script', ->
 #typescript compile&reload
 gulp.task 'script_type', ->
 	runSequence 'typescript', reload
+
+#typescript compile&reload
+gulp.task 'script_sass', ->
+	runSequence 'sass', reload
