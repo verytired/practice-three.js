@@ -1,0 +1,33 @@
+/*parmanent*/
+html, body {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+body {
+  font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+ul {}
+li {
+  list-style: none;
+}
+/*class*/
+.sample-list {
+  position: absolute;
+  bottom: 0px;
+  a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  a:visited {
+    color: #ffffff
+  }
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  font-size: 12px;
+}
