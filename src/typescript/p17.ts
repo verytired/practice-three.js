@@ -8,6 +8,10 @@ class MainApp17 {
   private controls: THREE.OrbitControls;
 
   //particle settings
+  private pc: THREE.PointCloud;
+  private pcMaterial: THREE.PointCloudMaterial;
+  private particles: THREE.Geometry;
+
   private particleSet = [];
   private particleCount = 45000;
   private spreadMin = 0.01;
@@ -16,6 +20,7 @@ class MainApp17 {
   private timeToSlow = 0.8;
 
   constructor() {
+
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -29,13 +34,38 @@ class MainApp17 {
     container.appendChild(this.renderer.domElement);
 
     this.controls = new THREE.OrbitControls(this.camera);
+    //resizing
+    window.addEventListener("resize", () => { this.onWindowResize(); }, false);
 
     //particle settings
     var light = new THREE.PointLight(0x0000ff, 5, 100);
     light.position.set(1, 1, 2);
     this.scene.add(light);
 
-    window.addEventListener("resize", this.onWindowResize, false);
+    this.particles = new THREE.Geometry();
+    this.pcMaterial = new THREE.PointCloudMaterial({
+      color: 0xFFFFFF,
+      size: 10,
+      map: THREE.ImageUtils.loadTexture("images/particles.png"),
+      transparent: true
+    });
+    //set particle  positions
+    for (var i = 0; i < this.particleCount; i++) {
+      var px = Math.random() * 1000 - 500,
+        py = Math.random() * 1000 - 500,
+        pz = Math.random() * 1000 - 500,
+        particle: any = new THREE.Vector3(px, py, pz);
+      particle.velocity = new THREE.Vector3(0, -Math.random(), 0);
+      this.particles.vertices.push(particle);
+    }
+
+
+    this.pc = new THREE.PointCloud(this.particles, this.pcMaterial);
+    // パーティクルの深さを毎フレームソート
+    console.log(this.pc);
+    this.pc.sortParticles = true;
+    this.scene.add(this.pc);
+
   }
 
   private onWindowResize() {
@@ -123,6 +153,7 @@ class MainApp17 {
 }
 
 window.addEventListener("load", (e) => {
+  console.log("loaded")
   var main: MainApp17 = new MainApp17();
   main.animate()
 });

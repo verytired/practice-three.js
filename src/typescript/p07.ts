@@ -70,7 +70,7 @@ class MainApp07 {
       cube2.rotation.z = mouseX * 0.005;
     }), false);
 
-    window.addEventListener("resize", this.onWindowResize, false);
+    window.addEventListener("resize", (e) => { this.onWindowResize() }, false);
 
     //effect
     this.composer = new THREE.EffectComposer(this.renderer);

@@ -31,7 +31,7 @@ class MainApp16 {
     axis.position.set(0, 0, 0);
     this.scene.add(axis);
 
-    window.addEventListener("resize", this.onWindowResize, false);
+    window.addEventListener("resize", (e) => { this.onWindowResize() }, false);
 
     this.controls = new THREE.OrbitControls(this.camera);
     //shape test

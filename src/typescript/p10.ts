@@ -113,7 +113,7 @@ class MainApp10 {
 				this.container.appendChild(this.renderer.domElement);
 				//リサイズ処理
 				this.onWindowResize();
-				window.addEventListener("resize", this.onWindowResize, false);
+				window.addEventListener("resize", (e) => { this.onWindowResize() }, false);
 
 				//5 オブジェクト追加
 				//光源追加
