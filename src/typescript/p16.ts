@@ -1,5 +1,4 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-
 /// <reference path="config.ts" />
 
 class MainApp16 {
@@ -80,7 +79,7 @@ class MainApp16 {
 		loopGeom.vertices[512].z = loopGeom.vertices[0].z;
 	}
 
-	private onWindowResize = function () {
+	private onWindowResize() {
 		//	this.camera.aspect = window.innerWidth / window.innerHeight;
 		//	this.camera.updateProjectionMatrix();
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
