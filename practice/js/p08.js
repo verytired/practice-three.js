@@ -1,6 +1,6 @@
 //定義ファイル
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="stats.d.ts" />
+/// <reference path="DefinitelyTyped/stats/stats.d.ts" />
 var MainApp08 = (function () {
     function MainApp08() {
         var _this = this;

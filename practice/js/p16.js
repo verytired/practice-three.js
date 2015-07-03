@@ -27,7 +27,7 @@ var MainApp16 = (function () {
         window.addEventListener("resize", this.onWindowResize, false);
         this.controls = new THREE.OrbitControls(this.camera);
         //shape test
-        var curve = new THREE.QuadraticBezierCurve(new THREE.Vector3(-10, 0, 0), new THREE.Vector3(20, 15, 0), new THREE.Vector3(10, 0, 0));
+        var curve = new THREE.QuadraticBezierCurve(new THREE.Vector2(-10, 0), new THREE.Vector2(20, 15), new THREE.Vector2(10, 0));
         var path = new THREE.Path(curve.getPoints(50));
         var geometry = path.createPointsGeometry(50);
         var material = new THREE.LineBasicMaterial({ color: 0xffffff });
@@ -37,7 +37,7 @@ var MainApp16 = (function () {
         var loopShape = new THREE.Shape();
         var r = 50;
         loopShape.absarc(0, 0, r, 0, Math.PI * 2, false); //これで円を書いている absarc(原点x,原点y,半径,start角度,end角度,???)
-        loopGeom = loopShape.createPointsGeometry(512 / 2); //shapeにgeometoryの頂点データを生成する  //2点生成されるから半分の数の指定でいい？
+        var loopGeom = loopShape.createPointsGeometry(512 / 2); //shapeにgeometoryの頂点データを生成する  //2点生成されるから半分の数の指定でいい？
         loopGeom.dynamic = true;
         //頂点をLineで結ぶ
         var m = new THREE.LineBasicMaterial({
@@ -56,7 +56,7 @@ var MainApp16 = (function () {
         this.scene.add(line);
         //z-index
         for (var j = 0; j < 512; j++) {
-            loopGeom.vertices[j].z = Math.random(1000) * 10;
+            loopGeom.vertices[j].z = Math.random() * 10;
         }
         // link up last segment
         loopGeom.vertices[512].z = loopGeom.vertices[0].z;

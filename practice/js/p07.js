@@ -27,7 +27,7 @@ var MainApp07 = (function () {
         directionalLight.castShadow = true;
         this.scene.add(directionalLight);
         var geometry = new THREE.CubeGeometry(40, 40, 40);
-        var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        var material = new THREE.MeshPhongMaterial({ 'color': 0xff0000 });
         var cube = new THREE.Mesh(geometry, material);
         cube.position.set(0, 60, 0);
         cube.castShadow = true;

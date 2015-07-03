@@ -1,6 +1,5 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/tween.js/tween.js.d.ts" />
-
 /// <reference path="config.ts" />
 
 class MainApp12 {
