@@ -1,4 +1,5 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
 /// <reference path="config.ts" />
 
 declare module THREE {
@@ -15,12 +16,18 @@ class MainApp17 {
   private pc: THREE.PointCloud;
   private pcMaterial: THREE.PointCloudMaterial;
   private particles: THREE.BufferGeometry;
-  private particlePositions = [];
+  private particlePositions:Float32Array;
   private particleCount = 45000;
   private spreadMin = 0.01;
   private spreadMax = 0.08;
   private speed = 2; // higher means slower
   private timeToSlow = 0.8;
+
+  private guiParams = {
+		axis:false,
+		isWireFrame: false,
+		particleCount: 20000,
+	};
 
   constructor() {
 
@@ -100,15 +107,17 @@ class MainApp17 {
     this.pcMaterial = new THREE.PointCloudMaterial({ size: 15, vertexColors: THREE.VertexColors });
     this.pc = new THREE.PointCloud(this.particles, this.pcMaterial);
     this.scene.add(this.pc);
+
+    this.initGUI();
   }
 
-  private onWindowResize() {
+  private onWindowResize():void {
     //	this.camera.aspect = window.innerWidth / window.innerHeight;
     //	this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  private render() {
+  private render():void {
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -124,9 +133,6 @@ class MainApp17 {
     requestAnimationFrame((e) =>
       this.animate()
       );
-  }
-
-  private setGUI(): void {
   }
 
   private updateParticles(): void {
@@ -155,17 +161,26 @@ class MainApp17 {
     return particle;
   }
 
-  private makeParts(): void {
-    var particles = this.parts()
-    particles.position.x += 0;
-    particles.position.y += 0;
-    //particles.velocity = new THREE.Vector3( 0.01, 0.01, 0 );
-    this.scene.add(particles);
-    this.particleSet.push(particles);
-  }
+  // private makeParts(): void {
+  //   var particles = this.parts()
+  //   particles.position.x += 0;
+  //   particles.position.y += 0;
+  //   //particles.velocity = new THREE.Vector3( 0.01, 0.01, 0 );
+  //   this.scene.add(particles);
+  //   this.particleSet.push(particles);
+  // }
 
   private rRange(min, max): Number {
     return Math.random() * (max - min) + min;
+  }
+
+  private initGUI():void {
+    var gui = new dat.GUI();
+    gui.add(this.guiParams, "particleCount", 0, 45000, 1).onChange((value)=> {
+      this.particleCount = parseInt(value);
+      this.particles.drawcalls[0].count = this.particleCount;
+    });
+
   }
 }
 
