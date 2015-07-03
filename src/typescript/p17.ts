@@ -9,7 +9,7 @@ class MainApp17 {
 
   //particle settings
   private particleSet = [];
-  private particleCount = 200;
+  private particleCount = 45000;
   private spreadMin = 0.01;
   private spreadMax = 0.08;
   private speed = 2; // higher means slower
@@ -42,7 +42,7 @@ class MainApp17 {
     //	this.camera.aspect = window.innerWidth / window.innerHeight;
     //	this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-  };
+  }
 
   private render() {
     //particle
@@ -62,7 +62,6 @@ class MainApp17 {
         this.particleSet[i].material.opacity = 1
 
       }
-
       this.particleSet[i].position.x += (0.002 + this.rRange(-this.spreadMin, this.spreadMax) / this.speed) * this.timeToSlow;
       this.particleSet[i].position.y += (0.002 + this.rRange(-this.spreadMin, this.spreadMax) / this.speed) * this.timeToSlow;
 
@@ -84,10 +83,13 @@ class MainApp17 {
       );
 
   }
+  private setGUI() {
+
+  }
 
   //Objects
   private container() {
-    var geometry = new THREE.PlaneGeometry(1, 1);
+    var geometry = new THREE.PlaneBufferGeometry(1, 1);
     var material = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true });
     var container = new THREE.Mesh(geometry, material);
 
@@ -95,7 +97,7 @@ class MainApp17 {
   }
 
   private parts() {
-    var geometry = new THREE.PlaneGeometry(0.01, 0.01);
+    var geometry = new THREE.PlaneBufferGeometry(0.01, 0.01);
     var material = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true });
     var particle = new THREE.Mesh(geometry, material);
 

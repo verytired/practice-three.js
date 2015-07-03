@@ -15,7 +15,7 @@ class MainApp14 {
   private controls;
 
   constructor() {
-    
+
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
     this.renderer.setClearColor(0x000000, 1);
@@ -67,11 +67,11 @@ class MainApp14 {
     })
   }
 
-  private onWindowResize = function() {
+  private onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-  };
+  }
 
 
   private update() {

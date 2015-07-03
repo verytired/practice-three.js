@@ -4,10 +4,10 @@
 /// <reference path="config.ts" />
 
 class MainApp13 {
-		private scene:THREE.Scene;
-		private camera:THREE.PerspectiveCamera;
-		private skyboxScene:THREE.Scene;
-		private skyboxCamera:THREE.PerspectiveCamera;
+		private scene: THREE.Scene;
+		private camera: THREE.PerspectiveCamera;
+		private skyboxScene: THREE.Scene;
+		private skyboxCamera: THREE.PerspectiveCamera;
 		private renderer;
 		private container;
 		private controls;
@@ -48,9 +48,9 @@ class MainApp13 {
 				directionalLight.castShadow = true;
 				this.scene.add(directionalLight);
 
-				/*var light = new THREE.PointLight(0xff0000);
-				light.position.set(500, 500, 0);
-				scene.add(light);*/
+    /*var light = new THREE.PointLight(0xff0000);
+    light.position.set(500, 500, 0);
+    scene.add(light);*/
 
 				//座標軸追加
 				var axis = new THREE.AxisHelper(1000);
@@ -74,12 +74,12 @@ class MainApp13 {
 
 				var textureCube = THREE.ImageUtils.loadTextureCube(urls);
 
-				var shader = THREE.ShaderLib["cube" ]; //1.標準シェーダー定義からcube用シェーダーを取得
-				shader.uniforms["tCube" ].value = textureCube; //2.シェーダーにtextureを指定
+				var shader = THREE.ShaderLib["cube"]; //1.標準シェーダー定義からcube用シェーダーを取得
+				shader.uniforms["tCube"].value = textureCube; //2.シェーダーにtextureを指定
 
 				//3.shaderMaterialを生成 読み込んだtextureを適用させる
 				//裏面だけに描画するように指定
-				var skyboxMaterial = new THREE.ShaderMaterial( {
+				var skyboxMaterial = new THREE.ShaderMaterial({
 						fragmentShader: shader.fragmentShader,
 						vertexShader: shader.vertexShader,
 						uniforms: shader.uniforms,
@@ -88,7 +88,7 @@ class MainApp13 {
 				});
 
 				//4.Meshを生成する
-				var skybox = new THREE.Mesh( new THREE.CubeGeometry( 400, 400, 400 ), skyboxMaterial );
+				var skybox = new THREE.Mesh(new THREE.CubeGeometry(400, 400, 400), skyboxMaterial);
 				this.skyboxScene.add(skybox);
 
 				//cube追加
@@ -98,15 +98,15 @@ class MainApp13 {
 				this.skyboxScene.add(cube);
 
 				/*** ADDING SCREEN SHOT ABILITY ***/
-				window.addEventListener("keyup", (e)=>{
+				window.addEventListener("keyup", (e) => {
 						var imgData, imgNode;
 						//Listen to 'P' key
-						if(e.which !== 80) return;
+						if (e.which !== 80) return;
 						try {
 								imgData = this.renderer.domElement.toDataURL();
 								console.log(imgData);
 						}
-						catch(e) {
+						catch (e) {
 								console.log(e)
 								console.log("Browser does not support taking screenshot of 3d context");
 								return;
@@ -114,11 +114,11 @@ class MainApp13 {
 				});
 		}
 
-		private onWindowResize = function () {
+		private onWindowResize() {
 				this.camera.aspect = window.innerWidth / window.innerHeight;
 				this.camera.updateProjectionMatrix();
 				this.renderer.setSize(window.innerWidth, window.innerHeight);
-		};
+		}
 
 
 		private update() {
@@ -127,22 +127,22 @@ class MainApp13 {
 
 		private render() {
 				//位置を追従させる
-				this.skyboxCamera.rotation.copy( this.camera.rotation )
-				this.skyboxCamera.position.copy( this.camera.position )
+				this.skyboxCamera.rotation.copy(this.camera.rotation)
+				this.skyboxCamera.position.copy(this.camera.position)
 				this.renderer.render(this.scene, this.camera);
-				this.renderer.render( this.skyboxScene, this.skyboxCamera );
+				this.renderer.render(this.skyboxScene, this.skyboxCamera);
 		}
 
 		public animate() {
 				this.update();
-				requestAnimationFrame((e)=>
+				requestAnimationFrame((e) =>
 						this.animate()
-				);
+      );
 				this.render();
 		}
 }
 
 window.addEventListener("load", (e) => {
-		var main:MainApp13 = new MainApp13();
+		var main: MainApp13 = new MainApp13();
 		main.animate();
 });
