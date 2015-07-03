@@ -14,9 +14,8 @@ class MainApp17 {
   //particle settings
   private pc: THREE.PointCloud;
   private pcMaterial: THREE.PointCloudMaterial;
-  private bg: THREE.BufferGeometry;
-
-  private particleSet = [];
+  private particles: THREE.BufferGeometry;
+  private particlePositions = [];
   private particleCount = 45000;
   private spreadMin = 0.01;
   private spreadMax = 0.08;
@@ -59,19 +58,19 @@ class MainApp17 {
     this.scene.add(light2);
 
     //bufferGeometry
-    this.bg = new THREE.BufferGeometry();
-    var positions = new Float32Array(this.particleCount * 3);
+    this.particles = new THREE.BufferGeometry();
+    this.particlePositions = new Float32Array(this.particleCount * 3);
     var colors = new Float32Array(this.particleCount * 3);
     var color = new THREE.Color();
     var n = 1000, n2 = n / 2; // particles spread in the cube
-    for (var i = 0; i < positions.length; i += 3) {
+    for (var i = 0; i < this.particleCount; i++) {
       // positions
       var x = Math.random() * n - n2;
       var y = Math.random() * n - n2;
       var z = Math.random() * n - n2;
-      positions[i] = x;
-      positions[i + 1] = y;
-      positions[i + 2] = z;
+      this.particlePositions[i * 3] = x;
+      this.particlePositions[i * 3 + 1] = y;
+      this.particlePositions[i * 3 + 2] = z;
       // colors
       var vx = (x / n) + 0.5;
       var vy = (y / n) + 0.5;
@@ -82,9 +81,15 @@ class MainApp17 {
       colors[i + 2] = color.b;
     }
 
-    this.bg.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-    this.bg.addAttribute('color', new THREE.BufferAttribute(colors, 3));
-    this.bg.computeBoundingSphere();
+    this.particles.drawcalls.push({
+      start: 0,
+      count: this.particleCount,
+      index: 0
+    });
+
+    this.particles.addAttribute('position', new THREE.DynamicBufferAttribute(this.particlePositions, 3));
+    this.particles.addAttribute('color', new THREE.BufferAttribute(colors, 3));
+    this.particles.computeBoundingSphere();
 
     // this.pcMaterial = new THREE.PointCloudMaterial({
     //   color: 0xFFFFFF,
@@ -93,9 +98,8 @@ class MainApp17 {
     //   transparent: true
     // });
     this.pcMaterial = new THREE.PointCloudMaterial({ size: 15, vertexColors: THREE.VertexColors });
-    this.pc = new THREE.PointCloud(this.bg, this.pcMaterial);
+    this.pc = new THREE.PointCloud(this.particles, this.pcMaterial);
     this.scene.add(this.pc);
-    console.log(this.bg);
   }
 
   private onWindowResize() {
@@ -105,28 +109,6 @@ class MainApp17 {
   }
 
   private render() {
-    //particle
-    /*
-    if (this.particleSet.length <= this.particleCount) {
-      this.makeParts();
-    }
-    for (var i = 0; i < this.particleSet.length; i++) {
-      var pArray = this.particleSet.indexOf(i);
-
-      this.particleSet[i].material.opacity -= 0.008;
-
-      if (this.particleSet[i].material.opacity <= 0) {
-
-        this.particleSet[i].position.x = 0;
-        this.particleSet[i].position.y = 0;
-        this.particleSet[i].material.opacity = 1
-
-      }
-      this.particleSet[i].position.x += (0.002 + this.rRange(-this.spreadMin, this.spreadMax) / this.speed) * this.timeToSlow;
-      this.particleSet[i].position.y += (0.002 + this.rRange(-this.spreadMin, this.spreadMax) / this.speed) * this.timeToSlow;
-    }
-    */
-
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -148,11 +130,13 @@ class MainApp17 {
   }
 
   private updateParticles(): void {
-    // var posArray = this.bg.attributes.position.array;
-    // for (var i = 0; i < this.particleCount; i += 3) {
-    //   posArray[i + 1] -= Math.random() * this.ySpeed;
-    // }
-    // this.pc.attributes.needsUpdate = true;
+    for (var i = 0; i < this.particleCount; i++) {
+      this.particlePositions[i * 3 + 1] -= this.speed * Math.random();
+      if (this.particlePositions[i * 3 + 1] < -400) {
+        this.particlePositions[i * 3 + 1] = 400;
+      }
+      this.pc.geometry.attributes.position.needsUpdate = true;
+    }
   }
 
   //Objects
