@@ -1,13 +1,6 @@
-//定義ファイル
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="config.ts" />
 var MainApp07 = (function () {
     function MainApp07() {
-        this.onWindowResize = function () {
-            this.camera.aspect = window.innerWidth / window.innerHeight;
-            this.camera.updateProjectionMatrix();
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
-        };
+        var _this = this;
         console.log("main app constructor");
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
@@ -61,8 +54,9 @@ var MainApp07 = (function () {
             cube2.rotation.y = mouseY * 0.005;
             cube2.rotation.z = mouseX * 0.005;
         }), false);
-        window.addEventListener("resize", this.onWindowResize, false);
-        //effect
+        window.addEventListener("resize", function (e) {
+            _this.onWindowResize();
+        }, false);
         this.composer = new THREE.EffectComposer(this.renderer);
         this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
         var effect = new THREE.ShaderPass(THREE.DotScreenShader);
@@ -77,8 +71,10 @@ var MainApp07 = (function () {
         this.composer.addPass(toScreen);
         toScreen.renderToScreen = true;
     }
+    MainApp07.prototype.onWindowResize = function () {
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+    };
     MainApp07.prototype.render = function () {
-        //        this.renderer.render(this.scene, this.camera);
         this.composer.render();
     };
     MainApp07.prototype.update = function () {
@@ -86,9 +82,7 @@ var MainApp07 = (function () {
     };
     MainApp07.prototype.animate = function () {
         var _this = this;
-        requestAnimationFrame(function (e) {
-            return _this.animate();
-        });
+        requestAnimationFrame(function (e) { return _this.animate(); });
         this.render();
         this.update();
     };

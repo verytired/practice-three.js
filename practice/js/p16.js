@@ -1,12 +1,6 @@
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="config.ts" />
 var MainApp16 = (function () {
     function MainApp16() {
-        this.onWindowResize = function () {
-            //	this.camera.aspect = window.innerWidth / window.innerHeight;
-            //	this.camera.updateProjectionMatrix();
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
-        };
+        var _this = this;
         console.log("main app constructor");
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
@@ -24,22 +18,21 @@ var MainApp16 = (function () {
         var axis = new THREE.AxisHelper(1000);
         axis.position.set(0, 0, 0);
         this.scene.add(axis);
-        window.addEventListener("resize", this.onWindowResize, false);
+        window.addEventListener("resize", function (e) {
+            _this.onWindowResize();
+        }, false);
         this.controls = new THREE.OrbitControls(this.camera);
-        //shape test
         var curve = new THREE.QuadraticBezierCurve(new THREE.Vector2(-10, 0), new THREE.Vector2(20, 15), new THREE.Vector2(10, 0));
         var path = new THREE.Path(curve.getPoints(50));
         var geometry = path.createPointsGeometry(50);
         var material = new THREE.LineBasicMaterial({ color: 0xffffff });
         var curveObject = new THREE.Line(geometry, material);
         this.scene.add(curveObject);
-        //shape circle
         var loopShape = new THREE.Shape();
         var r = 50;
-        loopShape.absarc(0, 0, r, 0, Math.PI * 2, false); //これで円を書いている absarc(原点x,原点y,半径,start角度,end角度,???)
-        var loopGeom = loopShape.createPointsGeometry(512 / 2); //shapeにgeometoryの頂点データを生成する  //2点生成されるから半分の数の指定でいい？
+        loopShape.absarc(0, 0, r, 0, Math.PI * 2, false);
+        var loopGeom = loopShape.createPointsGeometry(512 / 2);
         loopGeom.dynamic = true;
-        //頂点をLineで結ぶ
         var m = new THREE.LineBasicMaterial({
             color: 0xffffff,
             linewidth: 1,
@@ -54,13 +47,14 @@ var MainApp16 = (function () {
         line.scale.x = scale;
         line.scale.y = scale;
         this.scene.add(line);
-        //z-index
         for (var j = 0; j < 512; j++) {
             loopGeom.vertices[j].z = Math.random() * 10;
         }
-        // link up last segment
         loopGeom.vertices[512].z = loopGeom.vertices[0].z;
     }
+    MainApp16.prototype.onWindowResize = function () {
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+    };
     MainApp16.prototype.render = function () {
         this.renderer.render(this.scene, this.camera);
     };
@@ -69,9 +63,7 @@ var MainApp16 = (function () {
     };
     MainApp16.prototype.animate = function () {
         var _this = this;
-        requestAnimationFrame(function (e) {
-            return _this.animate();
-        });
+        requestAnimationFrame(function (e) { return _this.animate(); });
         this.render();
         this.update();
     };

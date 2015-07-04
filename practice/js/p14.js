@@ -1,15 +1,7 @@
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="DefinitelyTyped/tween.js/tween.js.d.ts" />
-/// <reference path="config.ts" />
 var MainApp14 = (function () {
     function MainApp14() {
         this.WIDTH = 640;
         this.HEIGHT = 480;
-        this.onWindowResize = function () {
-            this.camera.aspect = window.innerWidth / window.innerHeight;
-            this.camera.updateProjectionMatrix();
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
-        };
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setSize(this.WIDTH, this.HEIGHT);
         this.renderer.setClearColor(0x000000, 1);
@@ -26,7 +18,6 @@ var MainApp14 = (function () {
         mesh.position.set(0, 0, 0);
         this.scene.add(mesh);
         this.init2d();
-        //マウス制御機能追加
         this.controls = new THREE.OrbitControls(this.camera);
     }
     MainApp14.prototype.init2d = function () {
@@ -49,11 +40,15 @@ var MainApp14 = (function () {
             _this.scene2d.add(sprite2);
         });
     };
+    MainApp14.prototype.onWindowResize = function () {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+    };
     MainApp14.prototype.update = function () {
         this.controls.update();
     };
     MainApp14.prototype.render = function () {
-        //this.renderer.render(this.scene, this.camera);
         this.renderer.clear();
         this.renderer.render(this.scene2d, this.camera2d);
         this.renderer.render(this.scene, this.camera);
@@ -61,9 +56,7 @@ var MainApp14 = (function () {
     MainApp14.prototype.animate = function () {
         var _this = this;
         this.update();
-        requestAnimationFrame(function (e) {
-            return _this.animate();
-        });
+        requestAnimationFrame(function (e) { return _this.animate(); });
         this.render();
     };
     return MainApp14;
