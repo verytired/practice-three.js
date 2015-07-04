@@ -11,13 +11,13 @@ class MainApp17 {
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
   private controls: THREE.OrbitControls;
-
+  private stats:Stats;
   //particle settings
   private pc: THREE.PointCloud;
   private pcMaterial: THREE.PointCloudMaterial;
   private particles: THREE.BufferGeometry;
   private particlePositions:Float32Array;
-  private particleCount = 45000;
+  private particleCount = 500000;
   private spreadMin = 0.01;
   private spreadMax = 0.08;
   private speed = 2; // higher means slower
@@ -26,7 +26,7 @@ class MainApp17 {
   private guiParams = {
 		axis:false,
 		isWireFrame: false,
-		particleCount: 20000,
+		particleCount: this.  particleCount,
 	};
 
   constructor() {
@@ -44,10 +44,16 @@ class MainApp17 {
     container.appendChild(this.renderer.domElement);
 
     //add axis
+    /*
     var axis = new THREE.AxisHelper(1000);
     axis.position.set(0, 0, 0);
     this.scene.add(axis);
-
+    */
+    //stats
+    this.stats = new Stats();
+    this.stats.domElement.style.position = 'absolute';
+    this.stats.domElement.style.top = '0px';
+    container.appendChild(this.stats.domElement);
     //orbitcontrol
     this.controls = new THREE.OrbitControls(this.camera);
 
@@ -69,6 +75,7 @@ class MainApp17 {
     this.particlePositions = new Float32Array(this.particleCount * 3);
     var colors = new Float32Array(this.particleCount * 3);
     var color = new THREE.Color();
+
     var n = 1000, n2 = n / 2; // particles spread in the cube
     for (var i = 0; i < this.particleCount; i++) {
       // positions
@@ -83,15 +90,15 @@ class MainApp17 {
       var vy = (y / n) + 0.5;
       var vz = (z / n) + 0.5;
       color.setRGB(vx, vy, vz);
-      colors[i] = color.r;
-      colors[i + 1] = color.g;
-      colors[i + 2] = color.b;
+      colors[i*3] = color.r;
+      colors[i*3 + 1] = color.g;
+      colors[i*3 + 2] = color.b;
     }
 
     this.particles.drawcalls.push({
       start: 0,
       count: this.particleCount,
-      index: 0
+      index: 0,
     });
 
     this.particles.addAttribute('position', new THREE.DynamicBufferAttribute(this.particlePositions, 3));
@@ -127,19 +134,19 @@ class MainApp17 {
   }
 
   public animate(): void {
-    this.update();
-    this.render();
-
     requestAnimationFrame((e) =>
       this.animate()
       );
+    this.update();
+    this.render();
+    this.stats.update();
   }
 
   private updateParticles(): void {
     for (var i = 0; i < this.particleCount; i++) {
       this.particlePositions[i * 3 + 1] -= this.speed * Math.random();
-      if (this.particlePositions[i * 3 + 1] < -400) {
-        this.particlePositions[i * 3 + 1] = 400;
+      if (this.particlePositions[i * 3 + 1] < -500) {
+        this.particlePositions[i * 3 + 1] = 500;
       }
       this.pc.geometry.attributes.position.needsUpdate = true;
     }
@@ -176,7 +183,7 @@ class MainApp17 {
 
   private initGUI():void {
     var gui = new dat.GUI();
-    gui.add(this.guiParams, "particleCount", 0, 45000, 1).onChange((value)=> {
+    gui.add(this.guiParams, "particleCount", 0, this.particleCount, 1).onChange((value)=> {
       this.particleCount = parseInt(value);
       this.particles.drawcalls[0].count = this.particleCount;
     });
