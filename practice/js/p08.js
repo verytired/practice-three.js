@@ -1,14 +1,6 @@
-//定義ファイル
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="stats.d.ts" />
 var MainApp08 = (function () {
     function MainApp08() {
         var _this = this;
-        this.onWindowResize = function () {
-            this.renderer.setSize(window.innerWidth, window.innerHeight);
-            this.uniforms.resolution.value.x = this.renderer.domElement.width;
-            this.uniforms.resolution.value.y = this.renderer.domElement.height;
-        };
         this.container = document.getElementById('container');
         this.camera = new THREE.Camera();
         this.camera.position.z = 1;
@@ -33,17 +25,22 @@ var MainApp08 = (function () {
         this.stats.domElement.style.top = '0px';
         this.container.appendChild(this.stats.domElement);
         this.onWindowResize();
-        window.addEventListener("resize", function (e) { _this.onWindowResize(); }, false);
+        window.addEventListener("resize", function (e) {
+            _this.onWindowResize();
+        }, false);
     }
+    MainApp08.prototype.onWindowResize = function () {
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.uniforms.resolution.value.x = this.renderer.domElement.width;
+        this.uniforms.resolution.value.y = this.renderer.domElement.height;
+    };
     MainApp08.prototype.render = function () {
         this.uniforms.time.value += 0.05;
         this.renderer.render(this.scene, this.camera);
     };
     MainApp08.prototype.animate = function () {
         var _this = this;
-        requestAnimationFrame(function (e) {
-            return _this.animate();
-        });
+        requestAnimationFrame(function (e) { return _this.animate(); });
         this.render();
         this.stats.update();
     };

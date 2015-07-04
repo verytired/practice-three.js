@@ -1,21 +1,21 @@
 {
-  "name": "practice-threejs",
+  "name": "sandbox-threejs",
   "version": "0.0.0",
-  "description": "Practice Three.js",
+  "description": "Sandbox Three.js",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/verytired/practice-threejs.git"
+    "url": "git://github.com/verytired/sandbox-threejs.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/verytired/practice-threejs/issues"
+    "url": "https://github.com/verytired/sandbox-threejs/issues"
   },
-  "homepage": "https://github.com/verytired/practice-threejs",
+  "homepage": "https://github.com/verytired/sandbox-threejs",
   "devDependencies": {
     "browser-sync": "^1.3.6",
     "coffee-script": "~1.7.1",
@@ -27,7 +27,7 @@
     "gulp-load-plugins": "~0.5.3",
     "gulp-plumber": "^0.6.6",
     "gulp-ruby-sass": "~0.7.1",
-    "gulp-tsc": "*",
+    "gulp-typescript": "*",
     "gulp-uglify": "~0.3.1",
     "gulp-util": "~3.0.0",
     "run-sequence": "^0.3.6"
