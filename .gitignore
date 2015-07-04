@@ -7,3 +7,4 @@ node_modules
 # for dev
 tsconfig.json
 DefinitelyTyped
+src/typescript/*.js
