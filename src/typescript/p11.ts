@@ -4,8 +4,8 @@
 /// <reference path="config.ts" />
 
 class MainApp11 {
-		private scene:THREE.Scene;
-		private camera:THREE.PerspectiveCamera;
+		private scene: THREE.Scene;
+		private camera: THREE.PerspectiveCamera;
 		private renderer;
 		private container;
 		private controls;
@@ -33,7 +33,7 @@ class MainApp11 {
 				this.container.appendChild(this.renderer.domElement);
 				//リサイズ処理
 				this.onWindowResize();
-				window.addEventListener("resize", this.onWindowResize, false);
+				window.addEventListener("resize", (e) => { this.onWindowResize() }, false);
 
 				//5 オブジェクト追加
 				//光源追加
@@ -49,9 +49,9 @@ class MainApp11 {
 				cube.castShadow = true;
 				this.scene.add(cube);
 				//座標軸追加
-//				var axis = new THREE.AxisHelper(1000);
-//				axis.position.set(0, 0, 0);
-//				this.scene.add(axis);
+    //				var axis = new THREE.AxisHelper(1000);
+    //				axis.position.set(0, 0, 0);
+    //				this.scene.add(axis);
 
 				//マウス制御機能追加
 				this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
@@ -63,25 +63,25 @@ class MainApp11 {
 
 				//interactionテスト
 				this.raycaster = new THREE.Raycaster();
-				document.addEventListener('mousemove', ((e)=> {
+				document.addEventListener('mousemove', ((e) => {
 						this.onDocumentMouseMove(e)
 				}), false);
-				document.addEventListener('mousedown', ((e)=> {
+				document.addEventListener('mousedown', ((e) => {
 						this.onClick(e)
 				}), false);
 		}
 
-		private onWindowResize = function () {
+		private onWindowResize() {
 				this.camera.aspect = window.innerWidth / window.innerHeight;
 				this.camera.updateProjectionMatrix();
 				this.renderer.setSize(window.innerWidth, window.innerHeight);
-		};
+		}
 
 		private onDocumentMouseMove(event) {
 				event.preventDefault();
 				//mouse座標変更
-				this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-				this.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+				this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+				this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 		}
 
 		private onClick(event) {
@@ -90,15 +90,17 @@ class MainApp11 {
 				var tw = new TWEEN.Tween(this.INTERSECTED.position).to({
 						x: 0,
 						y: 0,
-						z: 100 }, 2000)
-					.easing(TWEEN.Easing.Elastic.Out);
+						z: 100
+    }, 2000)
+      .easing(TWEEN.Easing.Elastic.Out);
 				tw.start()
 
 				new TWEEN.Tween(this.INTERSECTED.rotation).to({
 						x: Math.random() * 2 * Math.PI,
 						y: Math.random() * 2 * Math.PI,
-						z: Math.random() * 2 * Math.PI }, 2000)
-					.easing(TWEEN.Easing.Elastic.Out).start();
+						z: Math.random() * 2 * Math.PI
+    }, 2000)
+      .easing(TWEEN.Easing.Elastic.Out).start();
 		}
 
 		private update() {
@@ -110,9 +112,9 @@ class MainApp11 {
 				this.raycaster.setFromCamera(this.mouse, this.camera);
 				var intersects = this.raycaster.intersectObjects(this.scene.children);
 				if (intersects.length > 0) {
-						if (this.INTERSECTED != intersects[ 0 ].object) {
+						if (this.INTERSECTED != intersects[0].object) {
 								if (this.INTERSECTED) this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
-								this.INTERSECTED = intersects[ 0 ].object;
+								this.INTERSECTED = intersects[0].object;
 								this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
 								this.INTERSECTED.material.emissive.setHex(0xff0000);
 						}
@@ -129,14 +131,14 @@ class MainApp11 {
 
 		public animate() {
 				this.update();
-				requestAnimationFrame((e)=>
+				requestAnimationFrame((e) =>
 						this.animate()
-				);
+      );
 				this.render();
 		}
 }
 
 window.addEventListener("load", (e) => {
-		var main:MainApp11 = new MainApp11();
+		var main: MainApp11 = new MainApp11();
 		main.animate();
 });

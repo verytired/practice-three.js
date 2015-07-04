@@ -15,7 +15,7 @@
       } else {
         renderer = new THREE.CanvasRenderer();
       }
-      renderer.setSize(600, 400);
+      renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setClearColor(0xffffff);
       renderer.shadowMapEnabled = true;
       container = document.getElementById('container');

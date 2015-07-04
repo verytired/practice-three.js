@@ -2,3 +2,9 @@
 .DS_Store
 *.iml
 node_modules
+.sass-cache
+
+# for dev
+tsconfig.json
+DefinitelyTyped
+src/typescript/*.js

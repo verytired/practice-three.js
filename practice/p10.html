@@ -1,46 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<title>p10</title>
+	<title>p10 Three.js + Web Audio API</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<style>
-		body {
-			color: #ffffff;
-			font-family: Monospace;
-			font-size: 13px;
-			text-align: center;
-			font-weight: bold;
-			background-color: #000000;
-			margin: 0px;
-			overflow: hidden;
-		}
-
-		#info {
-			position: absolute;
-			top: 0px;
-			width: 100%;
-			padding: 5px;
-		}
-
-		a {
-			color: #ffffff;
-		}
-
-		#oldie a {
-			color: #da0
-		}
-	</style>
+	<link href="css/main.css" rel="stylesheet" />
 </head>
+
 <body>
-<div id="container"></div>
-<div style="position:absolute;top:0px;left:0px">
-<input id="file" type="file"><br />
-<canvas id="visualizer" height="255"></canvas>
-</div>
-<script src="js/three.js/three.min.js"></script>
-<script src="js/three.js/OrbitControls.js"></script>
-<script src="js/lib/dat.gui.min.js"></script>
-<script src="js/p10.js"></script>
+	<div id="container"></div>
+	<div style="position:absolute;top:0px;left:0px">
+		<input id="file" type="file">
+		<br />
+		<canvas id="visualizer" height="255"></canvas>
+	</div>
+	<script src="js/three.js/three.min.js"></script>
+	<script src="js/three.js/OrbitControls.js"></script>
+	<script src="js/lib/dat.gui.min.js"></script>
+	<script src="js/p10.js"></script>
 </body>
+
 </html>

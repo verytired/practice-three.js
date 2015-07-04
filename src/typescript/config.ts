@@ -1,6 +1,8 @@
-//extension/shaderを使えるようにする
+//追加モジュール郡管理
+
 declare module THREE {
     export var OrbitControls;
+    export var ColladaLoader
     //effect
     export var EffectComposer;
     export var RenderPass;
