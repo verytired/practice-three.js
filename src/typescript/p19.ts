@@ -1,3 +1,6 @@
+//sample
+//https://github.com/izmhr/curveCard_vShaderTest/blob/master/index.html
+
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
 /// <reference path="config.ts" />
@@ -9,110 +12,109 @@ class MainApp19 {
   private controls: THREE.OrbitControls;
   private stats: Stats;
 
-  //particle settings
-  private pc: THREE.PointCloud;
-  private pcMaterial: THREE.PointCloudMaterial;
-  private particles: THREE.BufferGeometry;
-  private particlePositions: Float32Array;
-  private particleCount = 500000;
-  private spreadMin = 0.01;
-  private spreadMax = 0.08;
-  private speed = 2; // higher means slower
-  private timeToSlow = 0.8;
-
-  private guiParams = {
-    axis: false,
-    isWireFrame: false,
-    particleCount: this.particleCount,
-  };
-
+  private clock;
+  private myShaderUniforms;
   constructor() {
 
     this.scene = new THREE.Scene();
-    // this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    // this.camera.position.set(0, 0, 5);
-    this.camera = new THREE.PerspectiveCamera(27, window.innerWidth / window.innerHeight, 5, 3500);
-    this.camera.position.z = 2750;
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+    var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+    var VIEW_ANGLE = 45;
+    var ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT;
+    var NEAR = 0.1;
+    var FAR = 20000;
+    this.camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+    this.camera.position.set(0, 150, 400);
+
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     this.renderer.setClearColor(0x000000);
     this.renderer.shadowMapEnabled = true;
+
     var container = document.getElementById('container');
     container.appendChild(this.renderer.domElement);
 
-    //add axis
-    /*
-    var axis = new THREE.AxisHelper(1000);
-    axis.position.set(0, 0, 0);
-    this.scene.add(axis);
-    */
     //stats
     this.stats = new Stats();
     this.stats.domElement.style.position = 'absolute';
     this.stats.domElement.style.top = '0px';
     container.appendChild(this.stats.domElement);
+
     //orbitcontrol
     this.controls = new THREE.OrbitControls(this.camera);
 
     //resizing
     window.addEventListener("resize", () => { this.onWindowResize(); }, false);
 
-    //particle settings
-    this.scene.fog = new THREE.Fog(0x050505, 2000, 3500);
-    this.scene.add(new THREE.AmbientLight(0x444444));
-    var light1 = new THREE.DirectionalLight(0xffffff, 0.5);
-    light1.position.set(1, 1, 1);
-    this.scene.add(light1);
-    var light2 = new THREE.DirectionalLight(0xffffff, 1.5);
-    light2.position.set(0, -1, 0);
+    //contents setteing
+    this.clock = new THREE.Clock();
+    var card, curveCard;
+
+    //setting ojects
+    //lightsettings
+    var light = new THREE.PointLight(0xffffff);
+    light.position.set(0, 150, 100);
+    this.scene.add(light);
+    var light2 = new THREE.AmbientLight(0x444444);
     this.scene.add(light2);
 
-    //bufferGeometry
-    this.particles = new THREE.BufferGeometry();
-    this.particlePositions = new Float32Array(this.particleCount * 3);
-    var colors = new Float32Array(this.particleCount * 3);
-    var color = new THREE.Color();
+    // basic moon
+    var sphereGeom = new THREE.SphereGeometry(40, 32, 16);
+    var moonTexture = THREE.ImageUtils.loadTexture('images/moon.jpg');
+    var moonMaterial = new THREE.MeshBasicMaterial({ map: moonTexture });
+    var moon = new THREE.Mesh(sphereGeom.clone(), moonMaterial);
+    moon.position.set(-100, 50, -100);
+    this.scene.add(moon);
 
-    var n = 1000, n2 = n / 2; // particles spread in the cube
-    for (var i = 0; i < this.particleCount; i++) {
-      // positions
-      var x = Math.random() * n - n2;
-      var y = Math.random() * n - n2;
-      var z = Math.random() * n - n2;
-      this.particlePositions[i * 3] = x;
-      this.particlePositions[i * 3 + 1] = y;
-      this.particlePositions[i * 3 + 2] = z;
-      // colors
-      var vx = (x / n) + 0.5;
-      var vy = (y / n) + 0.5;
-      var vz = (z / n) + 0.5;
-      color.setRGB(vx, vy, vz);
-      colors[i * 3] = color.r;
-      colors[i * 3 + 1] = color.g;
-      colors[i * 3 + 2] = color.b;
-    }
+    // shaded moon -- side away from light picks up AmbientLight's color.
+    var moonTexture = THREE.ImageUtils.loadTexture('images/moon.jpg');
+    var moonMaterial = new THREE.MeshLambertMaterial({ map: moonTexture });
+    var moon2 = new THREE.Mesh(sphereGeom.clone(), moonMaterial);
+    moon2.position.set(0, 50, -100);
+    this.scene.add(moon2);
 
-    this.particles.drawcalls.push({
-      start: 0,
-      count: this.particleCount,
-      index: 0,
+    // colored moon
+    var moonTexture = THREE.ImageUtils.loadTexture('images/moon.jpg');
+    var moonMaterial = new THREE.MeshLambertMaterial({ map: moonTexture, color: 0xff8800, ambient: 0x0000ff });
+    var moon3 = new THREE.Mesh(sphereGeom.clone(), moonMaterial);
+    moon3.position.set(100, 50, -100);
+    this.scene.add(moon3);
+
+    //card
+    var cardTexture = THREE.ImageUtils.loadTexture('images/card.png');
+    var cardGeometry = new THREE.PlaneGeometry(160, 256, 20, 32);
+    var carMaterialShaderSimple = new THREE.ShaderMaterial({
+      vertexShader: document.getElementById('vertexShaderSimple').textContent,
+      fragmentShader: document.getElementById('fragmentShader').textContent,
+      uniforms: {
+        texture: { type: 't', value: cardTexture }
+      }
     });
 
-    this.particles.addAttribute('position', new THREE.DynamicBufferAttribute(this.particlePositions, 3));
-    this.particles.addAttribute('color', new THREE.BufferAttribute(colors, 3));
-    this.particles.computeBoundingSphere();
+    carMaterialShaderSimple.side = THREE.DoubleSide;
+    carMaterialShaderSimple.transparent = true;
+    carMaterialShaderSimple.blending = THREE.NormalBlending;
+    card = new THREE.Mesh(cardGeometry, carMaterialShaderSimple);
+    card.position.set(0, 0, -5);
+    this.scene.add(card);
 
-    // this.pcMaterial = new THREE.PointCloudMaterial({
-    //   color: 0xFFFFFF,
-    //   size: 10,
-    //   map: THREE.ImageUtils.loadTexture("images/particles.png"),
-    //   transparent: true
-    // });
-    this.pcMaterial = new THREE.PointCloudMaterial({ size: 15, vertexColors: THREE.VertexColors });
-    this.pc = new THREE.PointCloud(this.particles, this.pcMaterial);
-    this.scene.add(this.pc);
-
-    this.initGUI();
+    //-------- 曲げるアニメーションをするシェーダ --------
+    this.myShaderUniforms = {
+      curlR: { type: 'f', value: 0.0 },
+      rotZ: { type: 'f', value: Math.PI / 6.0 },
+      texture: { type: 't', value: cardTexture }
+    };
+    var curveCardMaterial = new THREE.ShaderMaterial({
+      vertexShader: document.getElementById('vertexShader').textContent,
+      fragmentShader: document.getElementById('fragmentShader').textContent,
+      uniforms: this.myShaderUniforms
+    });
+    curveCardMaterial.side = THREE.DoubleSide;
+    curveCardMaterial.transparent = true;
+    curveCardMaterial.blending = THREE.NormalBlending;
+    curveCard = new THREE.Mesh(cardGeometry, curveCardMaterial);
+    this.scene.add(curveCard);
+    this.clock.start();
   }
 
   private onWindowResize(): void {
@@ -126,7 +128,8 @@ class MainApp19 {
   }
 
   private update(): void {
-    this.updateParticles();
+    var _curlR = 200.0 + 150.0 * Math.sin(this.clock.getElapsedTime() * 2.0);
+    this.myShaderUniforms.curlR.value = _curlR;
     this.controls.update();
   }
 
@@ -137,45 +140,6 @@ class MainApp19 {
     this.update();
     this.render();
     this.stats.update();
-  }
-
-  private updateParticles(): void {
-    for (var i = 0; i < this.particleCount; i++) {
-      this.particlePositions[i * 3 + 1] -= this.speed * Math.random();
-      if (this.particlePositions[i * 3 + 1] < -500) {
-        this.particlePositions[i * 3 + 1] = 500;
-      }
-      this.pc.geometry.attributes.position.needsUpdate = true;
-    }
-  }
-
-  //Objects
-  private container(): THREE.Mesh {
-    var geometry = new THREE.PlaneBufferGeometry(1, 1);
-    var material = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true });
-    var container = new THREE.Mesh(geometry, material);
-    return container;
-  }
-
-  private parts(): THREE.Mesh {
-    var geometry = new THREE.PlaneBufferGeometry(0.01, 0.01);
-    var material = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true });
-    var particle = new THREE.Mesh(geometry, material);
-
-    return particle;
-  }
-
-  private rRange(min, max): Number {
-    return Math.random() * (max - min) + min;
-  }
-
-  private initGUI(): void {
-    var gui = new dat.GUI();
-    gui.add(this.guiParams, "particleCount", 0, this.particleCount, 1).onChange((value) => {
-      this.particleCount = parseInt(value);
-      this.particles.drawcalls[0].count = this.particleCount;
-    });
-
   }
 }
 
