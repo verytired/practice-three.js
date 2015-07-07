@@ -14,6 +14,7 @@ li {
 
 /*class*/
 .sample-list {
+  z-index: 1;
   position: absolute;
   bottom: 0px;
   background-color: rgba(0, 0, 0, 0.3);
@@ -25,6 +26,9 @@ li {
   .sample-list a:hover {
     text-decoration: underline; }
   .sample-list a:visited {
-    color: #ffffff; }
+    color: white; }
 
-/*# sourceMappingURL=main.css.map */
+iframe {
+  position: fixed;
+  top: 0px;
+  left: 0px; }
