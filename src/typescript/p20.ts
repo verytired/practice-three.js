@@ -14,7 +14,7 @@ class MainApp20 {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
-  private controls: THREE.OrbitControls;
+  private controls;
   private stats: Stats;
 
   private vs;
@@ -24,7 +24,7 @@ class MainApp20 {
   private attributes;
   private noise = new Array;
 
-  private shaderMaterial:THREE.ShaderMaterial;
+  private shaderMaterial: THREE.ShaderMaterial;
 
   constructor() {
     var WIDTH = window.innerWidth;
@@ -105,7 +105,7 @@ class MainApp20 {
 
   private start = Date.now();
   public update() {
-    this.shaderMaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - this.start );
+    this.shaderMaterial.uniforms['time'].value = .00025 * (Date.now() - this.start);
 
     /*var time = Date.now() * 0.01;
 
