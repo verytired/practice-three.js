@@ -2,20 +2,14 @@
  * original
  * http://threejs.org/examples/webgl_custom_attributes.html
  */
-
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
-/// <reference path="config.ts" />
-
-declare module THREE {
-  export var OrbitControls;
-}
 
 class MainApp18 {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
-  private controls: THREE.OrbitControls;
+  private controls;
   private stats: Stats;
 
   private vs;
@@ -45,7 +39,7 @@ class MainApp18 {
     this.stats.domElement.style.top = '0px';
     container.appendChild(this.stats.domElement);
 
-    this.control = new THREE.OrbitControls(this.camera);
+    this.controls = new THREE.OrbitControls(this.camera);
 
     window.addEventListener('resize', () => { this.onWindowResize() }, false);
   }
@@ -94,7 +88,7 @@ class MainApp18 {
     requestAnimationFrame((e) => { this.animate() });
 
     this.render();
-    this.control.update();
+    this.controls.update();
     this.stats.update();
   }
 

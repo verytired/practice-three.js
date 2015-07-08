@@ -1,22 +1,18 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
-/// <reference path="config.ts" />
-
-declare module THREE {
-  export var OrbitControls;
-}
 
 class MainApp17 {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
-  private controls: THREE.OrbitControls;
+  private controls;
   private stats:Stats;
   //particle settings
   private pc: THREE.PointCloud;
   private pcMaterial: THREE.PointCloudMaterial;
   private particles: THREE.BufferGeometry;
   private particlePositions:Float32Array;
+
   private particleCount = 500000;
   private spreadMin = 0.01;
   private spreadMax = 0.08;
@@ -148,7 +144,8 @@ class MainApp17 {
       if (this.particlePositions[i * 3 + 1] < -500) {
         this.particlePositions[i * 3 + 1] = 500;
       }
-      this.pc.geometry.attributes.position.needsUpdate = true;
+      var geometry:any = this.pc.geometry
+      geometry.attributes.position.needsUpdate = true;
     }
   }
 
@@ -183,7 +180,7 @@ class MainApp17 {
 
   private initGUI():void {
     var gui = new dat.GUI();
-    gui.add(this.guiParams, "particleCount", 0, this.particleCount, 1).onChange((value)=> {
+    gui.add(this.guiParams, "particleCount", 0, this.particleCount  ).onChange((value)=> {
       this.particleCount = parseInt(value);
       this.particles.drawcalls[0].count = this.particleCount;
     });

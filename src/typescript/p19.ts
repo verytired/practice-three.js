@@ -9,7 +9,7 @@ class MainApp19 {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
-  private controls: THREE.OrbitControls;
+  private controls;
   private stats: Stats;
 
   private clock;
@@ -42,7 +42,7 @@ class MainApp19 {
 
     //orbitcontrol
     this.controls = new THREE.OrbitControls(this.camera);
-
+    console.log(this.controls)
     //resizing
     window.addEventListener("resize", () => { this.onWindowResize(); }, false);
 
@@ -67,16 +67,16 @@ class MainApp19 {
     this.scene.add(moon);
 
     // shaded moon -- side away from light picks up AmbientLight's color.
-    var moonTexture = THREE.ImageUtils.loadTexture('images/moon.jpg');
-    var moonMaterial = new THREE.MeshLambertMaterial({ map: moonTexture });
-    var moon2 = new THREE.Mesh(sphereGeom.clone(), moonMaterial);
+    var moonTexture2 = THREE.ImageUtils.loadTexture('images/moon.jpg');
+    var moonMaterial2 = new THREE.MeshLambertMaterial({ map: moonTexture2 });
+    var moon2 = new THREE.Mesh(sphereGeom.clone(), moonMaterial2);
     moon2.position.set(0, 50, -100);
     this.scene.add(moon2);
 
     // colored moon
-    var moonTexture = THREE.ImageUtils.loadTexture('images/moon.jpg');
-    var moonMaterial = new THREE.MeshLambertMaterial({ map: moonTexture, color: 0xff8800, ambient: 0x0000ff });
-    var moon3 = new THREE.Mesh(sphereGeom.clone(), moonMaterial);
+    var moonTexture3 = THREE.ImageUtils.loadTexture('images/moon.jpg');
+    var moonMaterial3 = new THREE.MeshLambertMaterial({ map: moonTexture3, color: 0xff8800, ambient: 0x0000ff });
+    var moon3 = new THREE.Mesh(sphereGeom.clone(), moonMaterial3);
     moon3.position.set(100, 50, -100);
     this.scene.add(moon3);
 
