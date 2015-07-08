@@ -93,28 +93,33 @@ class MainApp18 {
   public animate() {
     requestAnimationFrame((e) => { this.animate() });
 
+    this.update()
     this.render();
     this.control.update();
     this.stats.update();
   }
 
-  public render() {
+  public update() {
     var time = Date.now() * 0.01;
 
+    //オブジェクト回転
     this.sphere.rotation.y = this.sphere.rotation.z = 0.01 * time;
 
+    //uniforms更新
     this.uniforms.amplitude.value = 2.5 * Math.sin(this.sphere.rotation.y * 0.125);
     this.uniforms.color.value.offsetHSL(0.0005, 0, 0);
 
+    //attribute更新
     for (var i = 0; i < this.attributes.displacement.value.length; i++) {
       this.attributes.displacement.value[i] = Math.sin(0.1 * i + time);
       this.noise[i] += 0.5 * (0.5 - Math.random());
       this.noise[i] = THREE.Math.clamp(this.noise[i], -5, 5);
       this.attributes.displacement.value[i] += this.noise[i];
     }
-
     this.attributes.displacement.needsUpdate = true;
+  }
 
+  public render() {
     this.renderer.render(this.scene, this.camera);
   }
 
