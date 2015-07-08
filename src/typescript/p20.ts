@@ -5,7 +5,6 @@
 
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
-/// <reference path="config.ts" />
 
 declare module THREE {
   export var OrbitControls;
@@ -70,8 +69,8 @@ class MainApp20 {
     this.uniforms.texture.value.wrapS = this.uniforms.texture.value.wrapT = THREE.RepeatWrapping;
 
     var shaderMaterial = new THREE.ShaderMaterial({
-      uniforms: this.uniforms,
-      attributes: this.attributes,
+      /*uniforms: this.uniforms,*/
+      /*attributes: this.attributes,*/
       vertexShader: this.vs,
       fragmentShader: this.fg
     });
@@ -100,7 +99,7 @@ class MainApp20 {
   }
 
   public update() {
-    var time = Date.now() * 0.01;
+    /*var time = Date.now() * 0.01;
 
     //オブジェクト回転
     this.sphere.rotation.y = this.sphere.rotation.z = 0.01 * time;
@@ -116,7 +115,7 @@ class MainApp20 {
       this.noise[i] = THREE.Math.clamp(this.noise[i], -5, 5);
       this.attributes.displacement.value[i] += this.noise[i];
     }
-    this.attributes.displacement.needsUpdate = true;
+    this.attributes.displacement.needsUpdate = true;*/
   }
 
   public render() {
@@ -151,5 +150,6 @@ class MainApp20 {
 
 window.addEventListener("load", (e) => {
   var main: MainApp20 = new MainApp20();
-  main.loadShader('data/shader/p18/p18.vert', 'data/shader/p18/p18.frag');
+  /*main.loadShader('data/shader/p20/p20_1.vert', 'data/shader/p20/p20_1.frag');*/
+  main.loadShader('data/shader/p20/p20_2.vert', 'data/shader/p20/p20_2.frag');
 });
