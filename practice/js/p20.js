@@ -2,6 +2,7 @@ var MainApp20 = (function () {
     function MainApp20() {
         var _this = this;
         this.noise = new Array;
+        this.start = Date.now();
         var WIDTH = window.innerWidth;
         var HEIGHT = window.innerHeight;
         this.camera = new THREE.PerspectiveCamera(30, WIDTH / HEIGHT, 1, 10000);
@@ -32,21 +33,23 @@ var MainApp20 = (function () {
             displacement: { type: 'f', value: [] }
         };
         this.uniforms = {
-            amplitude: { type: "f", value: 1.0 },
+            time: {
+                type: "f",
+                value: 0.0
+            },
             color: { type: "c", value: new THREE.Color(0xff2200) },
             texture: { type: "t", value: THREE.ImageUtils.loadTexture("texture/water.jpg") },
         };
         this.uniforms.texture.value.wrapS = this.uniforms.texture.value.wrapT = THREE.RepeatWrapping;
-        var shaderMaterial = new THREE.ShaderMaterial({
+        this.shaderMaterial = new THREE.ShaderMaterial({
             uniforms: this.uniforms,
-            attributes: this.attributes,
             vertexShader: this.vs,
             fragmentShader: this.fg
         });
         var radius = 50, segments = 128, rings = 64;
         var geometry = new THREE.SphereGeometry(radius, segments, rings);
         geometry.dynamic = true;
-        this.sphere = new THREE.Mesh(geometry, shaderMaterial);
+        this.sphere = new THREE.Mesh(geometry, this.shaderMaterial);
         var vertices = this.sphere.geometry.vertices;
         var values = this.attributes.displacement.value;
         for (var v = 0; v < vertices.length; v++) {
@@ -66,17 +69,7 @@ var MainApp20 = (function () {
         this.stats.update();
     };
     MainApp20.prototype.update = function () {
-        var time = Date.now() * 0.01;
-        this.sphere.rotation.y = this.sphere.rotation.z = 0.01 * time;
-        this.uniforms.amplitude.value = 2.5 * Math.sin(this.sphere.rotation.y * 0.125);
-        this.uniforms.color.value.offsetHSL(0.0005, 0, 0);
-        for (var i = 0; i < this.attributes.displacement.value.length; i++) {
-            this.attributes.displacement.value[i] = Math.sin(0.1 * i + time);
-            this.noise[i] += 0.5 * (0.5 - Math.random());
-            this.noise[i] = THREE.Math.clamp(this.noise[i], -5, 5);
-            this.attributes.displacement.value[i] += this.noise[i];
-        }
-        this.attributes.displacement.needsUpdate = true;
+        this.shaderMaterial.uniforms['time'].value = .00025 * (Date.now() - this.start);
     };
     MainApp20.prototype.render = function () {
         this.renderer.render(this.scene, this.camera);
@@ -108,5 +101,5 @@ var MainApp20 = (function () {
 })();
 window.addEventListener("load", function (e) {
     var main = new MainApp20();
-    main.loadShader('data/shader/p18/p18.vert', 'data/shader/p18/p18.frag');
+    main.loadShader('data/shader/p20/p20_3.vert', 'data/shader/p20/p20_2.frag');
 });

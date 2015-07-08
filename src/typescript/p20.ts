@@ -1,6 +1,6 @@
 /**
  * original
- * http://threejs.org/examples/webgl_custom_attributes.html
+ * http://www.clicktorelease.com/blog/vertex-displacement-noise-3d-webgl-glsl-three-js
  */
 
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
@@ -23,6 +23,8 @@ class MainApp20 {
   private uniforms;
   private attributes;
   private noise = new Array;
+
+  private shaderMaterial:THREE.ShaderMaterial;
 
   constructor() {
     var WIDTH = window.innerWidth;
@@ -62,14 +64,17 @@ class MainApp20 {
     };
 
     this.uniforms = {
-      amplitude: { type: "f", value: 1.0 },
+      time: { // float initialized to 0
+        type: "f",
+        value: 0.0
+      },
       color: { type: "c", value: new THREE.Color(0xff2200) },
       texture: { type: "t", value: THREE.ImageUtils.loadTexture("texture/water.jpg") },
     };
     this.uniforms.texture.value.wrapS = this.uniforms.texture.value.wrapT = THREE.RepeatWrapping;
 
-    var shaderMaterial = new THREE.ShaderMaterial({
-      /*uniforms: this.uniforms,*/
+    this.shaderMaterial = new THREE.ShaderMaterial({
+      uniforms: this.uniforms,
       /*attributes: this.attributes,*/
       vertexShader: this.vs,
       fragmentShader: this.fg
@@ -78,7 +83,7 @@ class MainApp20 {
     var radius = 50, segments = 128, rings = 64;
     var geometry = new THREE.SphereGeometry(radius, segments, rings);
     geometry.dynamic = true;
-    this.sphere = new THREE.Mesh(geometry, shaderMaterial);
+    this.sphere = new THREE.Mesh(geometry, this.shaderMaterial);
 
     var vertices = this.sphere.geometry.vertices;
     var values = this.attributes.displacement.value;
@@ -98,7 +103,10 @@ class MainApp20 {
     this.stats.update();
   }
 
+  private start = Date.now();
   public update() {
+    this.shaderMaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - this.start );
+
     /*var time = Date.now() * 0.01;
 
     //オブジェクト回転
@@ -151,5 +159,6 @@ class MainApp20 {
 window.addEventListener("load", (e) => {
   var main: MainApp20 = new MainApp20();
   /*main.loadShader('data/shader/p20/p20_1.vert', 'data/shader/p20/p20_1.frag');*/
-  main.loadShader('data/shader/p20/p20_2.vert', 'data/shader/p20/p20_2.frag');
+  /*main.loadShader('data/shader/p20/p20_2.vert', 'data/shader/p20/p20_2.frag');*/
+  main.loadShader('data/shader/p20/p20_3.vert', 'data/shader/p20/p20_2.frag');
 });
