@@ -1,4 +1,4 @@
-# Practice Three.js
+# Sandbox Three.js
 Sample codes for three.js
 
 
@@ -62,8 +62,6 @@ Colladaファイルの読込とParticleの実装例
 drawing path
 
 ### p17 BufferGeometry
-
-### p18 Custom attributes
 
 ### p18 Custom attributes
 
