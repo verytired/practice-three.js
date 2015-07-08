@@ -15,6 +15,7 @@ li {
 }
 /*class*/
 .sample-list {
+  z-index: 1;
   position: absolute;
   bottom: 0px;
   a {
@@ -30,4 +31,10 @@ li {
   background-color: rgba(0, 0, 0, 0.3);
   padding: 10px;
   font-size: 12px;
+}
+
+iframe{
+  position: fixed;
+  top: 0px;
+  left: 0px;
 }
