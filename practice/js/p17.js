@@ -92,7 +92,8 @@ var MainApp17 = (function () {
             if (this.particlePositions[i * 3 + 1] < -500) {
                 this.particlePositions[i * 3 + 1] = 500;
             }
-            this.pc.geometry.attributes.position.needsUpdate = true;
+            var geometry = this.pc.geometry;
+            geometry.attributes.position.needsUpdate = true;
         }
     };
     MainApp17.prototype.container = function () {
@@ -113,7 +114,7 @@ var MainApp17 = (function () {
     MainApp17.prototype.initGUI = function () {
         var _this = this;
         var gui = new dat.GUI();
-        gui.add(this.guiParams, "particleCount", 0, this.particleCount, 1).onChange(function (value) {
+        gui.add(this.guiParams, "particleCount", 0, this.particleCount).onChange(function (value) {
             _this.particleCount = parseInt(value);
             _this.particles.drawcalls[0].count = _this.particleCount;
         });

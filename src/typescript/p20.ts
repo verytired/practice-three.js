@@ -59,10 +59,6 @@ class MainApp20 {
 
   private makeMesh(): void {
     //shaderMaterial生成
-    this.attributes = {
-      displacement: { type: 'f', value: [] }
-    };
-
     this.uniforms = {
       time: { // float initialized to 0
         type: "f",
@@ -75,7 +71,6 @@ class MainApp20 {
 
     this.shaderMaterial = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
-      /*attributes: this.attributes,*/
       vertexShader: this.vs,
       fragmentShader: this.fg
     });
@@ -84,13 +79,6 @@ class MainApp20 {
     var geometry = new THREE.SphereGeometry(radius, segments, rings);
     geometry.dynamic = true;
     this.sphere = new THREE.Mesh(geometry, this.shaderMaterial);
-
-    var vertices = this.sphere.geometry.vertices;
-    var values = this.attributes.displacement.value;
-    for (var v = 0; v < vertices.length; v++) {
-      values[v] = 0;
-      this.noise[v] = Math.random() * 5;
-    }
     this.scene.add(this.sphere);
   }
 
@@ -106,24 +94,8 @@ class MainApp20 {
   private start = Date.now();
   public update() {
     this.shaderMaterial.uniforms['time'].value = .00025 * (Date.now() - this.start);
-
-    /*var time = Date.now() * 0.01;
-
     //オブジェクト回転
-    this.sphere.rotation.y = this.sphere.rotation.z = 0.01 * time;
-
-    //uniforms更新
-    this.uniforms.amplitude.value = 2.5 * Math.sin(this.sphere.rotation.y * 0.125);
-    this.uniforms.color.value.offsetHSL(0.0005, 0, 0);
-
-    //attribute更新
-    for (var i = 0; i < this.attributes.displacement.value.length; i++) {
-      this.attributes.displacement.value[i] = Math.sin(0.1 * i + time);
-      this.noise[i] += 0.5 * (0.5 - Math.random());
-      this.noise[i] = THREE.Math.clamp(this.noise[i], -5, 5);
-      this.attributes.displacement.value[i] += this.noise[i];
-    }
-    this.attributes.displacement.needsUpdate = true;*/
+    this.sphere.rotation.y = this.sphere.rotation.z = 0.01 * (Date.now() - this.start) / 100;
   }
 
   public render() {
