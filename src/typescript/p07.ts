@@ -1,7 +1,17 @@
 //定義ファイル
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="./DefinitelyTyped/threejs/three-orbitcontrols.d.ts"/>
 
-/// <reference path="config.ts" />
+declare module THREE {
+    //effect
+    export var EffectComposer;
+    export var RenderPass;
+    export var ShaderPass;
+    export var DotScreenShader;
+    export var DotMatrixShader;
+    export var RGBShiftShader;
+    export var CopyShader;
+}
 
 class MainApp07 {
   private scene: THREE.Scene;

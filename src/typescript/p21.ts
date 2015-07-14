@@ -11,12 +11,12 @@ class BasicView extends EventEmitter2 {
   private axis: THREE.AxisHelper;
 
   constructor() {
+    super();
     var WIDTH = window.innerWidth;
     var HEIGHT = window.innerHeight;
     this.camera = new THREE.PerspectiveCamera(30, WIDTH / HEIGHT, 1, 10000);
     this.camera.position.z = 300;
     this.scene = new THREE.Scene();
-
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setClearColor(0x050505);
     this.renderer.setPixelRatio(window.devicePixelRatio);

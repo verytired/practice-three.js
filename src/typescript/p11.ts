@@ -1,8 +1,6 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/tween.js/tween.js.d.ts" />
 
-/// <reference path="config.ts" />
-
 class MainApp11 {
 		private scene: THREE.Scene;
 		private camera: THREE.PerspectiveCamera;
@@ -14,7 +12,6 @@ class MainApp11 {
 		private raycaster;
 
 		constructor() {
-
 				//1.カメラ追加
 				this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
 				this.camera.position.set(0, 70, 70);

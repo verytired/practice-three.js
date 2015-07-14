@@ -6,9 +6,6 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
 
-declare module THREE {
-  export var OrbitControls;
-}
 
 class MainApp20 {
   private scene: THREE.Scene;
