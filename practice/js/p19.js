@@ -20,6 +20,7 @@ var MainApp19 = (function () {
         this.stats.domElement.style.top = '0px';
         container.appendChild(this.stats.domElement);
         this.controls = new THREE.OrbitControls(this.camera);
+        console.log(this.controls);
         window.addEventListener("resize", function () {
             _this.onWindowResize();
         }, false);
@@ -36,14 +37,14 @@ var MainApp19 = (function () {
         var moon = new THREE.Mesh(sphereGeom.clone(), moonMaterial);
         moon.position.set(-100, 50, -100);
         this.scene.add(moon);
-        var moonTexture = THREE.ImageUtils.loadTexture('images/moon.jpg');
-        var moonMaterial = new THREE.MeshLambertMaterial({ map: moonTexture });
-        var moon2 = new THREE.Mesh(sphereGeom.clone(), moonMaterial);
+        var moonTexture2 = THREE.ImageUtils.loadTexture('images/moon.jpg');
+        var moonMaterial2 = new THREE.MeshLambertMaterial({ map: moonTexture2 });
+        var moon2 = new THREE.Mesh(sphereGeom.clone(), moonMaterial2);
         moon2.position.set(0, 50, -100);
         this.scene.add(moon2);
-        var moonTexture = THREE.ImageUtils.loadTexture('images/moon.jpg');
-        var moonMaterial = new THREE.MeshLambertMaterial({ map: moonTexture, color: 0xff8800, ambient: 0x0000ff });
-        var moon3 = new THREE.Mesh(sphereGeom.clone(), moonMaterial);
+        var moonTexture3 = THREE.ImageUtils.loadTexture('images/moon.jpg');
+        var moonMaterial3 = new THREE.MeshLambertMaterial({ map: moonTexture3, color: 0xff8800, ambient: 0x0000ff });
+        var moon3 = new THREE.Mesh(sphereGeom.clone(), moonMaterial3);
         moon3.position.set(100, 50, -100);
         this.scene.add(moon3);
         var cardTexture = THREE.ImageUtils.loadTexture('images/card.png');

@@ -1,6 +1,9 @@
 /// <reference path="DefinitelyTyped/threejs/three.d.ts" />
 /// <reference path="DefinitelyTyped/tween.js/tween.js.d.ts" />
-/// <reference path="config.ts" />
+
+declare module THREE {
+    export var ColladaLoader;
+}
 
 class MainApp12 {
 		private scene: THREE.Scene;
@@ -19,7 +22,6 @@ class MainApp12 {
 		private ySpeed = 0.001;
 
 		constructor() {
-
 				//1.カメラ追加
 				//this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
 				this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 3000);

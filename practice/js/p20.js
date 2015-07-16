@@ -29,9 +29,6 @@ var MainApp20 = (function () {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     };
     MainApp20.prototype.makeMesh = function () {
-        this.attributes = {
-            displacement: { type: 'f', value: [] }
-        };
         this.uniforms = {
             time: {
                 type: "f",
@@ -50,12 +47,6 @@ var MainApp20 = (function () {
         var geometry = new THREE.SphereGeometry(radius, segments, rings);
         geometry.dynamic = true;
         this.sphere = new THREE.Mesh(geometry, this.shaderMaterial);
-        var vertices = this.sphere.geometry.vertices;
-        var values = this.attributes.displacement.value;
-        for (var v = 0; v < vertices.length; v++) {
-            values[v] = 0;
-            this.noise[v] = Math.random() * 5;
-        }
         this.scene.add(this.sphere);
     };
     MainApp20.prototype.animate = function () {
@@ -70,6 +61,7 @@ var MainApp20 = (function () {
     };
     MainApp20.prototype.update = function () {
         this.shaderMaterial.uniforms['time'].value = .00025 * (Date.now() - this.start);
+        this.sphere.rotation.y = this.sphere.rotation.z = 0.01 * (Date.now() - this.start) / 100;
     };
     MainApp20.prototype.render = function () {
         this.renderer.render(this.scene, this.camera);

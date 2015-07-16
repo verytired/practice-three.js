@@ -67,9 +67,6 @@ class AudioManager {
 		}
 }
 
-declare module THREE {
-		export var OrbitControls;
-}
 
 class MainApp10 {
 		private scene: THREE.Scene;
