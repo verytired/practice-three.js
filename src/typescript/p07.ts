@@ -4,13 +4,14 @@
 
 declare module THREE {
     //effect
-    export var EffectComposer;
-    export var RenderPass;
-    export var ShaderPass;
-    export var DotScreenShader;
+    //既にDefinitelyTypedに型宣言ファイルがあるものはコメントアウト
+    /*export var EffectComposer;*/
+    /*export var RenderPass;*/
+    /*export var ShaderPass;*/
+    /*export var DotScreenShader;*/
     export var DotMatrixShader;
-    export var RGBShiftShader;
-    export var CopyShader;
+    /*export var RGBShiftShader;*/
+    /*export var CopyShader;*/
 }
 
 class MainApp07 {
