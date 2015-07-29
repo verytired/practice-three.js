@@ -1,66 +1,9 @@
-/// <reference path="DefinitelyTyped/eventemitter2/eventemitter2.d.ts" />
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
+/// <reference path="common/BasicView.ts"/>
 
-class BasicView extends EventEmitter2 {
-
-  public scene: THREE.Scene;
-  public camera: THREE.PerspectiveCamera;
-  public renderer: THREE.WebGLRenderer;
-
-  private stats: Stats;
-  private axis: THREE.AxisHelper;
-
-  constructor() {
-    super();
-    var WIDTH = window.innerWidth;
-    var HEIGHT = window.innerHeight;
-    this.camera = new THREE.PerspectiveCamera(30, WIDTH / HEIGHT, 1, 10000);
-    this.camera.position.z = 300;
-    this.scene = new THREE.Scene();
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setClearColor(0x050505);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(WIDTH, HEIGHT);
-
-    var container = document.getElementById('container');
-    container.appendChild(this.renderer.domElement);
-
-    this.axis = new THREE.AxisHelper(1000);
-    this.axis.position.set(0, 0, 0);
-    this.axis.visible = false;
-    this.scene.add(this.axis);
-
-    this.stats = new Stats();
-    this.stats.domElement.style.position = 'absolute';
-    this.stats.domElement.style.top = '0px';
-  }
-
-  public animate() {
-    requestAnimationFrame((e) => { this.animate() });
-    this.update()
-    this.render();
-    if (this.stats) this.stats.update();
-  }
-
-  public update() {
-    this.emit("update");
-  }
-
-  public render() {
-    this.renderer.render(this.scene, this.camera);
-  }
-
-  private onWindowResize(): void {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-  }
-
-  public setAxis(flag) {
-    this.axis.visible = flag
-  }
-}
-
+/**
+ * p21
+ * Generic Class for three.js
+ */
 class MainApp21 {
 
   private view: BasicView
@@ -71,6 +14,17 @@ class MainApp21 {
       this.update()
     })
     this.view.setAxis(true);
+
+    var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(0, 100, 30);
+    directionalLight.castShadow = true;
+    this.view.add(directionalLight);
+
+    var geometry = new THREE.BoxGeometry(40, 40, 40);
+    var material = new THREE.MeshPhongMaterial({'color': 0xff0000});
+    var cube = new THREE.Mesh(geometry, material);
+    this.view.add(cube);
+
     this.view.animate();
   }
 

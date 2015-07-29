@@ -68,3 +68,5 @@ drawing path
 ### p19 Custom Shader
 
 ### p20 Custom Shader2
+
+### p21 Generic Class for three.js
