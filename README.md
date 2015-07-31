@@ -4,13 +4,6 @@ Sample codes for three.js
 
 [http://verytired.github.io/sandbox-three.js/practice/](http://verytired.github.io/sandbox-three.js/practice/)
 
-## Attention
-when you will use TypeScript, install DefinitelyTyped files in src/typescript
-
-```
-cd src/typescript
-git clone https://github.com/borisyankov/DefinitelyTyped.git
-```
 
 ## Sample List
 ### p01 Cube
