@@ -1,5 +1,8 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
+/**
+ * three.js簡易初期化用クラス
+ */
 class BasicView extends EventEmitter2 {
 
     public scene: THREE.Scene;
@@ -8,7 +11,7 @@ class BasicView extends EventEmitter2 {
 
     private stats: Stats;
     private axis: THREE.AxisHelper;
-    private controls:THREE.OrbitControls;
+    private controls: THREE.OrbitControls;
 
     constructor() {
         super();
@@ -38,37 +41,61 @@ class BasicView extends EventEmitter2 {
         this.controls = new THREE.OrbitControls(this.camera);
     }
 
-    public animate() {
+    /**
+     * 描画開始
+     */
+    public animate(): void {
         requestAnimationFrame((e) => { this.animate() });
-        this.update()
         this.render();
-        this.controls.update();
+        this.update()
+        if (this.controls) this.controls.update();
         if (this.stats) this.stats.update();
     }
 
-    public update() {
+    /**
+     * 更新処理実行
+     */
+    public update(): void {
         this.emit("update");
     }
 
-    public render() {
+    /**
+     * レンダリング
+     */
+    public render(): void {
         this.renderer.render(this.scene, this.camera);
     }
 
+    /**
+     * リサイズ処理
+     */
     private onWindowResize(): void {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    public setAxis(flag) {
+    /**
+     * 座標軸表示
+     * @param  {boolean} flag 表示/非表示
+     */
+    public setAxis(flag: boolean): void {
         this.axis.visible = flag
     }
 
-    public add(obj) {
+    /**
+     * sceneにオブジェクト追加
+     * @param  {THREE.Object3D} obj 追加するオブジェクトon]
+     */
+    public add(obj: THREE.Object3D): void {
         this.scene.add(obj);
     }
 
-    public remove(obj) {
+    /**
+     * sceneからオブジェクト削除
+     * @param  {THREE.Object3D} obj 削除するオブジェクト
+     */
+    public remove(obj: THREE.Object3D): void {
         this.scene.remove(obj);
     }
 
