@@ -1,6 +1,4 @@
-//定義ファイル
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="./DefinitelyTyped/threejs/three-orbitcontrols.d.ts"/>
+/// <reference path="../typings/tsd.d.ts"/>
 
 declare module THREE {
     //effect
@@ -8,9 +6,9 @@ declare module THREE {
     /*export var EffectComposer;*/
     /*export var RenderPass;*/
     /*export var ShaderPass;*/
-    /*export var DotScreenShader;*/
+    export var DotScreenShader;
     export var DotMatrixShader;
-    /*export var RGBShiftShader;*/
+    export var RGBShiftShader;
     /*export var CopyShader;*/
 }
 

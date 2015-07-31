@@ -1,0 +1,69 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "src/typescript/DefinitelyTyped",
+  "bundle": "src/typings/tsd.d.ts",
+  "installed": {
+    "threejs/three.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/detector.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-canvasrenderer.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-copyshader.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-effectcomposer.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-maskpass.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-orbitcontrols.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-shaderpass.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-trackballcontrols.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-css3drenderer.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-vreffect.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-vrcontrols.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-projector.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "threejs/three-renderpass.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "eventemitter2/eventemitter2.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "dat-gui/dat-gui.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "stats/stats.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "tween.js/tween.js.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "webaudioapi/waa.d.ts": {
+      "commit": "383a3bc8e654a77eb8bd07d9feb7208735dcb6fa"
+    }
+  }
+}

@@ -1,5 +1,4 @@
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="config.ts" />
+/// <reference path="../typings/tsd.d.ts"/>
 
 class MainApp16 {
   private scene: THREE.Scene;

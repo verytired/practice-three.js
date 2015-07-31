@@ -2,8 +2,8 @@
  * original
  * http://threejs.org/examples/webgl_custom_attributes.html
  */
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
+
+/// <reference path="../typings/tsd.d.ts"/>
 
 class MainApp18 {
   private scene: THREE.Scene;

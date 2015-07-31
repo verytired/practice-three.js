@@ -1,6 +1,4 @@
-/// <reference path="../DefinitelyTyped/eventemitter2/eventemitter2.d.ts" />
-/// <reference path="../DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="../DefinitelyTyped/threejs/three-orbitcontrols.d.ts"/>
+/// <reference path="../../typings/tsd.d.ts"/>
 
 class BasicView extends EventEmitter2 {
 

@@ -1,10 +1,4 @@
-/**
- * Created by yutaka.sano on 2015/06/10.
- */
-//定義ファイル
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="DefinitelyTyped/stats/stats.d.ts" />
-/// <reference path="DefinitelyTyped/jquery/jquery.d.ts" />
+/// <reference path="../typings/tsd.d.ts"/>
 
 class MainApp15 {
   private scene: THREE.Scene;

@@ -1,9 +1,6 @@
 //sample
 //https://github.com/izmhr/curveCard_vShaderTest/blob/master/index.html
-
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
-/// <reference path="config.ts" />
+/// <reference path="../typings/tsd.d.ts"/>
 
 class MainApp19 {
   private scene: THREE.Scene;
