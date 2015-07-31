@@ -3,15 +3,13 @@
  * http://www.clicktorelease.com/blog/vertex-displacement-noise-3d-webgl-glsl-three-js
  */
 
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
-
+/// <reference path="../typings/tsd.d.ts"/>
 
 class MainApp20 {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
-  private controls;
+  private controls:THREE.OrbitControls;
   private stats: Stats;
 
   private vs;

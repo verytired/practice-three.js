@@ -1,6 +1,4 @@
-//定義ファイル
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="DefinitelyTyped/stats/stats.d.ts" />
+/// <reference path="../typings/tsd.d.ts"/>
 
 class MainApp08 {
   private scene: THREE.Scene;

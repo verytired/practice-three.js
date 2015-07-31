@@ -2208,7 +2208,7 @@ declare module THREE {
         skinning?: boolean;
         morphTargets?: boolean;
         morphNormals?: boolean;
-        ambient? : number;　//20150729 独自追加
+        ambient? : number;
     }
 
     export class MeshLambertMaterial extends Material {

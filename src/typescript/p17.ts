@@ -1,6 +1,4 @@
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="DefinitelyTyped/dat-gui/dat-gui.d.ts" />
-
+/// <reference path="../typings/tsd.d.ts"/>
 class MainApp17 {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;

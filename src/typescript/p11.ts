@@ -1,5 +1,4 @@
-/// <reference path="DefinitelyTyped/threejs/three.d.ts" />
-/// <reference path="DefinitelyTyped/tween.js/tween.js.d.ts" />
+/// <reference path="../typings/tsd.d.ts"/>
 
 class MainApp11 {
 		private scene: THREE.Scene;
